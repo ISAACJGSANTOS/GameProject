@@ -6,5 +6,8 @@ public class ThisShitIsReal {
         Game game = new Game(30,100);
 
         game.play();
+
+        GamePlay gamePlay = new GamePlay(game);
+        gamePlay.init();
     }
 }
