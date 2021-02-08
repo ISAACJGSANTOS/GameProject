@@ -10,9 +10,9 @@ public class GameObjects {
     private Picture image;
     private int health;
 
-    //public GameObjects (int col, int row) {
-        //FieldPosition pos = new Field.makeGridPosition(col, row);
-    //}
+    public GameObjects (FieldPosition pos) {
+        this.pos = pos;
+    }
 
     public int getHealth() {
         return health;
@@ -20,6 +20,10 @@ public class GameObjects {
 
     public Picture getImage() {
         return image;
+    }
+
+    public FieldPosition getPos() {
+        return pos;
     }
 
     @Override

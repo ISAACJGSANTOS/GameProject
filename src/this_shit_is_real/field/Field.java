@@ -10,7 +10,7 @@ import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 public class Field {
 
     private static final int PADDING = 10;  // Standard - not to change.
-    private static final int CELL_SIZE = 20;  // We can change this one - the larger the number, the larger the columns and rows.
+    private static final int CELL_SIZE = 30;  // We can change this one - the larger the number, the larger the columns and rows.
     private Rectangle field;  // Our representation on the screen
 
     public Field(int cols, int rows) {
