@@ -4,19 +4,18 @@ import this_shit_is_real.field.FieldPosition;
 
 public class Player extends GameObjects{
 
-    private int health;
     private int score;
 
-    public Player(FieldPosition pos){
-        super(pos);
+    public Player(GameObjectsType type, FieldPosition pos){
+        super(type, pos);
     }
 
     public void hit(int bulletDamage){
-        this.health -= bulletDamage;
+        setHealth(getHealth() - bulletDamage);
     }
 
     public void shoot(){
-        Bullets bullet = new Bullets(getPos());
+        Bullets bullet = new Bullets(GameObjectsType.BULLET, getPos());
     }
 
 }

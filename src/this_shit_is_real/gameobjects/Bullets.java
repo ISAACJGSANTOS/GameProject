@@ -8,8 +8,8 @@ public class Bullets extends GameObjects{
     private GameObjects ally;
     private boolean damageOnTouch;
 
-    public Bullets(FieldPosition pos){
-        super(pos);
+    public Bullets(GameObjectsType type, FieldPosition pos){
+        super(type, pos);
     }
 
     public boolean damageOnTouch(){
