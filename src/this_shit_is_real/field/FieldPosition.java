@@ -1,5 +1,6 @@
 package this_shit_is_real.field;
 
+import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 
 /*
@@ -22,9 +23,10 @@ public class FieldPosition extends AbstractPosition {
     }
 
     @Override
-    public void show() {
+    public void show() {  // Soon to be adjusted to rectangles
+        rectangle.setColor(Color.RED);
         rectangle.fill();
-    }  // Soon to be adjusted to rectangles
+    }
     public void hide() { rectangle.delete(); }   // Soon to be adjusted to rectangles
 
     @Override
