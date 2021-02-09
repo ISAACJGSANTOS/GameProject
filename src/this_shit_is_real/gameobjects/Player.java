@@ -48,12 +48,15 @@ public class Player extends GameObjects implements KeyboardHandler {
 
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
+        FieldPosition pos = getPos();
         switch (keyboardEvent.getKey()) {
             case KeyboardEvent.KEY_LEFT:
                 setCurrentDirection(FieldDirection.LEFT);
+                pos.moveInDirection(getCurrentDirection(),1);
                 break;
             case KeyboardEvent.KEY_RIGHT:
                 setCurrentDirection(FieldDirection.RIGHT);
+                pos.moveInDirection(getCurrentDirection(),1);
                 break;
             case KeyboardEvent.KEY_SPACE:
                 shoot();
