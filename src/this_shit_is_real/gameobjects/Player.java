@@ -4,6 +4,7 @@ import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
+import this_shit_is_real.GamePlay;
 import this_shit_is_real.field.FieldDirection;
 import this_shit_is_real.field.FieldPosition;
 
@@ -11,10 +12,14 @@ public class Player extends GameObjects implements KeyboardHandler {
 
     private int score;
     private Keyboard keyboard;
+    private GameObjectsFactory factory;
+    private GamePlay gamePlay;
 
-    public Player(GameObjectsType type, FieldPosition pos){
+    public Player(GameObjectsType type, FieldPosition pos, GamePlay game){
         super(type, pos);
         keyboard = new Keyboard(this);
+        gamePlay = game;
+        factory = game.getFactory;
         init();
     }
 
@@ -41,7 +46,10 @@ public class Player extends GameObjects implements KeyboardHandler {
     }
 
     public void shoot(){
-        Bullets bullet = new Bullets(GameObjectsType.BULLET, getPos());
+        int row = getPos().getRow() - 1;
+        int col = getPos().getCol();
+        Bullets bullet = factory.generateBullets(col, row);
+        // gamePlay.AddToArray(bullet);
     }
 
     // KEYBOARD STAR -------------------------------------------------------------
