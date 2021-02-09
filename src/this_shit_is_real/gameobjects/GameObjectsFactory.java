@@ -1,13 +1,16 @@
 package this_shit_is_real.gameobjects;
 
+import this_shit_is_real.GamePlay;
 import this_shit_is_real.field.Field;
 
 public class GameObjectsFactory {
 
     Field field;
+    GamePlay gamePlay;
 
-    public GameObjectsFactory(Field field) {
+    public GameObjectsFactory(Field field, GamePlay gamePlay) {
         this.field = field;
+        this.gamePlay = gamePlay;
     }
 
     public Enemies generateEnemy(int col, int row) {
@@ -30,7 +33,7 @@ public class GameObjectsFactory {
     }
 
     public Player generatePlayer(int col, int row){
-        return new Player(GameObjectsType.PLAYER, field.makeFieldPosition(col, row));
+        return new Player(GameObjectsType.PLAYER, field.makeFieldPosition(col, row), gamePlay);
     }
 
     public Enemies generateBoss(int col, int row){
