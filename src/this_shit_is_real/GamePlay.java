@@ -20,6 +20,7 @@ public class GamePlay {
 
         int row = field.getRows();
         int col = field.getCols();
+
         Player player = factory.generatePlayer((int) col / 2, (int) row - 4);
         gameObjects[0] = player;
         Enemies boss = factory.generateBoss((int) col / 2, (int) row - ((int) row - 3));
