@@ -12,19 +12,24 @@ public class FieldPosition extends AbstractPosition {
 
     private Rectangle rectangle;
     private Field field;
+    private Color color;
 
     public FieldPosition(int col, int row, Field field) {
         super(col, row, field);
         this.field = field;
+    }
 
+    // This method is called by the GameObject (the owner of FieldPosition) to show the object on canvas for the first time
+    public void init (Color color) {
         // Until we have the images, we'll use rectangles to represent the objects
+        this.color = color;
         rectangle = new Rectangle(field.columnToXinPixels(getCol()), field.rowToYinPixels(getRow()), field.getCellSize(),field.getCellSize());
         show();
     }
 
     @Override
     public void show() {  // Soon to be adjusted to rectangles
-        rectangle.setColor(Color.RED);
+        rectangle.setColor(color);
         rectangle.fill();
     }
     public void hide() { rectangle.delete(); }   // Soon to be adjusted to rectangles
@@ -45,5 +50,4 @@ public class FieldPosition extends AbstractPosition {
 
         rectangle.translate(xFinal - xStart, yFinal - yStart);  // This method of Rectangle receives ONLY the movement in pixels (= FP - CP)
     }
-
 }
