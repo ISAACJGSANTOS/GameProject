@@ -22,4 +22,8 @@ public enum GameObjectsType {
         this.health = health;
         this.color = color;
     }
+
+    public Color getColor() {
+        return color;
+    }
 }
