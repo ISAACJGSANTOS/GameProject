@@ -9,13 +9,19 @@ public class GameObjects {
     private FieldPosition pos;
     private Picture image;
     private int health;
+    private GameObjectsType type;
 
-    public GameObjects (FieldPosition pos) {
+    public GameObjects (GameObjectsType type, FieldPosition pos) {
         this.pos = pos;
+        this.type = type;
     }
 
     public int getHealth() {
         return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     public Picture getImage() {
