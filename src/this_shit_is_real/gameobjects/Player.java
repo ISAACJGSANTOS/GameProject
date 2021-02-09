@@ -19,7 +19,7 @@ public class Player extends GameObjects implements KeyboardHandler {
         super(type, pos);
         keyboard = new Keyboard(this);
         gamePlay = game;
-        factory = game.getFactory;
+        factory = gamePlay.getFactory();;
         init();
     }
 
