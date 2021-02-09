@@ -18,21 +18,28 @@ public class GamePlay {
 
         GameObjects[] gameObjects = new GameObjects[totalEnemies + 3];
 
-        for (int i = 0; i < gameObjects.length; i++) {
-            if (i == 0) {
-                Player player = factory.generatePlayer(0, 0);
-                gameObjects[i] = player;
-            } else if (i == 1) {
-                Enemies boss = factory.generateBoss(0, 0);
-                gameObjects[i] = boss;
-            } else if (i < 4) {
-                gameObjects[i] = factory.generateBarriers(0, 0);
-            } else {
-                gameObjects[i] = factory.generateEnemy(0, 0);
+        int row = field.getRows();
+        int col = field.getCols();
+
+        Player player = factory.generatePlayer((int) col / 2, (int) row - 4);
+        gameObjects[0] = player;
+        Enemies boss = factory.generateBoss((int) col / 2, (int) row - ((int) row - 3));
+        gameObjects[1] = boss;
+
+        for (int i = 0; i < field.getCols(); i++) {
+            if (i == (int) col / 4) {
+                gameObjects[2] = factory.generateBarriers(i, row - 8);
+            } else if (i == ((int) col / 2) + ((int) col / 4)) {
+                gameObjects[3] = factory.generateBarriers(i, row - 8);
             }
-            System.out.println(gameObjects[i].toString());
         }
-    }
+        /*for (int i = 0; i < field.getCols(); i++){
+            if()
+
+                gameObjects[i] = factory.generateEnemy(0, 0);
+
+            System.out.println(gameObjects[i].toString()):}*/
+}
 
     public void start() {
     }
