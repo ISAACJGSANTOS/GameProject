@@ -18,7 +18,6 @@ public class GameObjects {
         this.type = type;
         myPos = new FieldPosition[type.getSize()];
 
-        System.out.println(type);
         init(pos);
     }
 
