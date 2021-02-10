@@ -47,4 +47,8 @@ public class GameObjectsFactory {
     public Barriers generateBarriers(int col, int row){
         return new Barriers(GameObjectsType.BARRIER, field.makeFieldPosition(col, row));
     }
+
+    public Button generateButton(int col, int row){
+        return new Button(GameObjectsType.MENU, field.makeFieldPosition(col, row));
+    }
 }

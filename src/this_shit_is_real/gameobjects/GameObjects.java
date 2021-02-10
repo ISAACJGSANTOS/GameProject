@@ -28,7 +28,10 @@ public class GameObjects {
 
             // Let's set the final position for all the positions
             switch (i) {
-                case 1: case 3: myPos[i].moveInDirection(FieldDirection.RIGHT, 1); break;
+                case 1:
+                case 3:
+                    myPos[i].moveInDirection(FieldDirection.RIGHT, 1);
+                    break;
                 case 2:
                     myPos[i].moveInDirection(FieldDirection.DOWN, 1);
                     myPos[i].moveInDirection(FieldDirection.LEFT, 1);
@@ -37,7 +40,7 @@ public class GameObjects {
     }
 
     // Let's move all the object positions
-    public void move(FieldDirection direction, int distance) {
+    public void move (FieldDirection direction, int distance) {
         for (FieldPosition pos : myPos) {
             pos.moveInDirection(direction, distance);
         }
