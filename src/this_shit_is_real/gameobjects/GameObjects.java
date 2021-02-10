@@ -34,7 +34,6 @@ public class GameObjects {
                     myPos[i].moveInDirection(FieldDirection.LEFT, 1);
             }
         }
-    }
 
     // Let's move all the object positions
     public void move(FieldDirection direction, int distance) {
