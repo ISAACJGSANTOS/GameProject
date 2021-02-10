@@ -15,30 +15,31 @@ public class StartMenu implements KeyboardHandler {
     private Keyboard keyboard;
     private Game game;
     private Field field;
-    private Button startButton;
-    private Button muteButton;
-    private Button quitButton;
-    private int count = 0;
+    private Button[] buttons;
+    private int selected;
+    private Picture pic;
 
     public StartMenu(GameObjectsFactory factory, Game game, Field field) {
-        keyboard = new Keyboard(this);
         this.game = game;
         this.field = field;
+        this.selected = 0;
+        buttons = new Button[3];
+        keyboard = new Keyboard(this);
+
         createMenu(factory);
     }
 
     public void createMenu(GameObjectsFactory factory){
-        Picture pic = new Picture(field.getWidth(), field.getHeight());
-        pic.load("media/menu_test-01.jpg");
-        System.out.println(pic.getMaxY());
+        pic = new Picture(field.getWidth(), field.getHeight());
+        pic.load("media/test_menu.jpg");
         pic.draw();
+        pic.translate(10, 10);
 
-        startButton = factory.generateButton(10, 10);
-        muteButton = factory.generateButton(10, 15);
-        quitButton = factory.generateButton(10,20);
+        for (int i = 0; i < buttons.length; i++) { buttons[i] = factory.generateButton(9, 23 + i * 5); }
+        buttons[selected].getPos().setColor(Color.RED);
+        buttons[selected].getPos().show();
+
         activateKeyboard();
-
-
     }
 
     public void activateKeyboard() {
@@ -65,115 +66,39 @@ public class StartMenu implements KeyboardHandler {
         switch (keyboardEvent.getKey()) {
 
             case KeyboardEvent.KEY_DOWN:
-                if((count >= 0 && count < 2)){
-                    count++;
-                    System.out.println(count);
-                }
-                System.out.println("KeyDown Clicked");
-                changeImage();
+                if (selected < buttons.length - 1) { selected ++; changeImage(); }
                 break;
 
             case KeyboardEvent.KEY_UP:
-                if (!(count <1)){
-                    count--;
-                    System.out.println(count);
-                }
-                System.out.println("KeyUp Clicked");
-                changeImage();
+                if (selected > 0) { selected --; changeImage(); }
                 break;
 
             case KeyboardEvent.KEY_SPACE:
-                /*
-                 * se o count for igual a 1 -> startGame
-                 * se o count for igual a 2 -> mute
-                 * se o count for igual a 3 -> quit
-                 */
-                System.out.println("SPACE Clicked");
-                break;
-        }
-    }
-/*
-    @Override
-    public void keyPressed(KeyboardEvent keyboardEvent) {
-
-        switch (keyboardEvent.getKey()) {
-
-            case KeyboardEvent.KEY_DOWN:
-                if((count >= 0 && count < 2)){
-                    count++;
-                    System.out.println(count);
+                switch (selected) {
+                    case 0:
+                        pic.delete();
+                        for (Button b: buttons) {b.getPos().hide();}
+                        game.play();
+                        break;
+                    case 1: // game.quit(); break;
+                    case 2: // game.mute();
                 }
-                System.out.println("KeyDown Clicked");
-                changeImage();
-                break;
-
-            case KeyboardEvent.KEY_UP:
-                if (!(count <1)){
-                    count--;
-                    System.out.println(count);
-                }
-                System.out.println("KeyUp Clicked");
-                changeImage();
-                break;
-
-            case KeyboardEvent.KEY_SPACE:
-
-                // se o count for igual a 1 -> startGame
-                // se o count for igual a 2 -> mute
-                // se o count for igual a 3 -> quit
-
-                System.out.println("SPACE Clicked");
-                break;
         }
     }
-*/
+
+    public void changeImage() {
+
+        for (Button b : buttons) {
+
+            if ( b.equals(buttons[selected]) ) {
+                b.getPos().setColor(Color.RED);
+            } else {
+                b.getPos().setColor(Color.WHITE);
+            }
+            b.getPos().show();
+        }
+    }
+
     @Override
-    public void keyReleased(KeyboardEvent keyboardEvent) {
-
-    }
-
-    public void changeImage(){
-        switch (count){
-            case 0:{
-                startButton.getPos().setColor(Color.RED);
-                muteButton.getPos().setColor(Color.WHITE);
-                quitButton.getPos().setColor(Color.WHITE);
-
-                startButton.getPos().show();
-                muteButton.getPos().show();
-                quitButton.getPos().show();
-               /*
-               image startButton selected
-               image muteButton unselected
-               image quitButton unselected
-                */
-            }
-            case 1:{
-                startButton.getPos().setColor(Color.WHITE);
-                muteButton.getPos().setColor(Color.RED);
-                quitButton.getPos().setColor(Color.WHITE);
-                startButton.getPos().show();
-                muteButton.getPos().show();
-                quitButton.getPos().show();
-                /*
-               image muteButton selected
-               image startButton unselected
-               image quitButton unselected
-                */
-            }
-            case 2:{
-                startButton.getPos().setColor(Color.WHITE);
-                muteButton.getPos().setColor(Color.WHITE);
-                quitButton.getPos().setColor(Color.RED);
-                startButton.getPos().show();
-                muteButton.getPos().show();
-                quitButton.getPos().show();
-                /*
-               image quitButton selected
-               image startButton unselected
-               image muteButton unselected
-                */
-            }
-        }
-    }
+    public void keyReleased(KeyboardEvent keyboardEvent) {}
 }
