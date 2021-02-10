@@ -34,6 +34,10 @@ public class FieldPosition extends AbstractPosition {
     }
     public void hide() { rectangle.delete(); }   // Soon to be adjusted to rectangles
 
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
     @Override
     public void moveInDirection(FieldDirection direction, int distance) {  // The parameters receive the abstract distance (in rows or columns, NOT in pixels)
 

@@ -14,16 +14,12 @@ public class GamePlay {
 
     public GamePlay(Game game) {
         field = game.getField();
-        init();
-
     }
 
     public void init() {
         factory = new GameObjectsFactory(field, this);
 
         GameObjects[] gameObjects = new GameObjects[TOTAL_ENEMIES + 4];
-
-        System.out.println(field);
 
         int row = field.getRows();
         int col = field.getCols();

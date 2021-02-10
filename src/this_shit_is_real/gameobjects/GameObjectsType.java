@@ -11,8 +11,8 @@ public enum GameObjectsType {
     CREATOR("Boss", 150, Color.RED, 4),
     PLAYER("Player", 200, Color.GREEN, 1),
     BARRIER("Protection", 200, Color.GRAY, 2),
-    BULLET("Bullet", 1, Color.BLUE, 1);
-    MENU("Button", 100, Color.WHITE, 2);
+    BULLET("Bullet", 1, Color.BLUE, 1),
+    MENU("Button", 100, Color.WHITE, 1);
 
     private String name;
     private int health;

@@ -1,9 +1,11 @@
 package this_shit_is_real;
 
+import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
 import this_shit_is_real.field.Field;
 import this_shit_is_real.gameobjects.Button;
 import this_shit_is_real.gameobjects.GameObjectsFactory;
@@ -26,10 +28,17 @@ public class StartMenu implements KeyboardHandler {
     }
 
     public void createMenu(GameObjectsFactory factory){
+        Picture pic = new Picture(field.getWidth(), field.getHeight());
+        pic.load("media/menu_test-01.jpg");
+        System.out.println(pic.getMaxY());
+        pic.draw();
+
         startButton = factory.generateButton(10, 10);
         muteButton = factory.generateButton(10, 15);
         quitButton = factory.generateButton(10,20);
         activateKeyboard();
+
+
     }
 
     public void activateKeyboard() {
@@ -52,9 +61,11 @@ public class StartMenu implements KeyboardHandler {
 
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
+
         switch (keyboardEvent.getKey()) {
+
             case KeyboardEvent.KEY_DOWN:
-                if((count >= 0 && count<2)){
+                if((count >= 0 && count < 2)){
                     count++;
                     System.out.println(count);
                 }
@@ -73,15 +84,49 @@ public class StartMenu implements KeyboardHandler {
 
             case KeyboardEvent.KEY_SPACE:
                 /*
-                * se o count for igual a 1 -> startGame
-                * se o count for igual a 2 -> mute
-                * se o count for igual a 3 -> quit
-                */
+                 * se o count for igual a 1 -> startGame
+                 * se o count for igual a 2 -> mute
+                 * se o count for igual a 3 -> quit
+                 */
                 System.out.println("SPACE Clicked");
                 break;
         }
     }
+/*
+    @Override
+    public void keyPressed(KeyboardEvent keyboardEvent) {
 
+        switch (keyboardEvent.getKey()) {
+
+            case KeyboardEvent.KEY_DOWN:
+                if((count >= 0 && count < 2)){
+                    count++;
+                    System.out.println(count);
+                }
+                System.out.println("KeyDown Clicked");
+                changeImage();
+                break;
+
+            case KeyboardEvent.KEY_UP:
+                if (!(count <1)){
+                    count--;
+                    System.out.println(count);
+                }
+                System.out.println("KeyUp Clicked");
+                changeImage();
+                break;
+
+            case KeyboardEvent.KEY_SPACE:
+
+                // se o count for igual a 1 -> startGame
+                // se o count for igual a 2 -> mute
+                // se o count for igual a 3 -> quit
+
+                System.out.println("SPACE Clicked");
+                break;
+        }
+    }
+*/
     @Override
     public void keyReleased(KeyboardEvent keyboardEvent) {
 
@@ -90,6 +135,13 @@ public class StartMenu implements KeyboardHandler {
     public void changeImage(){
         switch (count){
             case 0:{
+                startButton.getPos().setColor(Color.RED);
+                muteButton.getPos().setColor(Color.WHITE);
+                quitButton.getPos().setColor(Color.WHITE);
+
+                startButton.getPos().show();
+                muteButton.getPos().show();
+                quitButton.getPos().show();
                /*
                image startButton selected
                image muteButton unselected
@@ -97,6 +149,12 @@ public class StartMenu implements KeyboardHandler {
                 */
             }
             case 1:{
+                startButton.getPos().setColor(Color.WHITE);
+                muteButton.getPos().setColor(Color.RED);
+                quitButton.getPos().setColor(Color.WHITE);
+                startButton.getPos().show();
+                muteButton.getPos().show();
+                quitButton.getPos().show();
                 /*
                image muteButton selected
                image startButton unselected
@@ -104,6 +162,12 @@ public class StartMenu implements KeyboardHandler {
                 */
             }
             case 2:{
+                startButton.getPos().setColor(Color.WHITE);
+                muteButton.getPos().setColor(Color.WHITE);
+                quitButton.getPos().setColor(Color.RED);
+                startButton.getPos().show();
+                muteButton.getPos().show();
+                quitButton.getPos().show();
                 /*
                image quitButton selected
                image startButton unselected

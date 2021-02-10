@@ -15,12 +15,13 @@ public class Game {
     }
 
     public void init() {
-//        GameObjectsFactory factory = new GameObjectsFactory(field);
-//        startMenu = new StartMenu(factory,this, getField());
+        gamePlay = new GamePlay(this);
+        GameObjectsFactory factory = new GameObjectsFactory(field, gamePlay);
+        startMenu = new StartMenu(factory,this, getField());
     }
 
     public void play() {
-        gamePlay = new GamePlay(this);
+        gamePlay.init();
         gamePlay.start();
     }
 
