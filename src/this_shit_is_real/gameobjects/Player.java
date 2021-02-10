@@ -19,7 +19,7 @@ public class Player extends GameObjects implements KeyboardHandler {
         super(type, pos);
         keyboard = new Keyboard(this);
         gamePlay = game;
-        factory = gamePlay.getFactory();;
+        factory = gamePlay.getFactory();
         init();
     }
 
@@ -60,11 +60,11 @@ public class Player extends GameObjects implements KeyboardHandler {
         switch (keyboardEvent.getKey()) {
             case KeyboardEvent.KEY_LEFT:
                 setCurrentDirection(FieldDirection.LEFT);
-                pos.moveInDirection(getCurrentDirection(),1);
+                move(getCurrentDirection(),1);
                 break;
             case KeyboardEvent.KEY_RIGHT:
                 setCurrentDirection(FieldDirection.RIGHT);
-                pos.moveInDirection(getCurrentDirection(),1);
+                move(getCurrentDirection(),1);
                 break;
             case KeyboardEvent.KEY_SPACE:
                 shoot();
