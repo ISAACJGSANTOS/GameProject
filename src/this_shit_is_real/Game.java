@@ -1,6 +1,7 @@
 package this_shit_is_real;
 
 import this_shit_is_real.field.Field;
+import this_shit_is_real.gameobjects.GameObjectsFactory;
 
 public class Game {
 
@@ -14,7 +15,8 @@ public class Game {
     }
 
     public void init() {
-        startMenu = new StartMenu(this);
+//        GameObjectsFactory factory = new GameObjectsFactory(field);
+//        startMenu = new StartMenu(factory,this, getField());
     }
 
     public void play() {

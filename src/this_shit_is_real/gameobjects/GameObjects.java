@@ -20,8 +20,6 @@ public class GameObjects {
         pos.init(type.getColor());  // Ask FieldPosition to create the rectangle or image
     }
 
-
-
     public int getHealth() {
         return health;
     }
