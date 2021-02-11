@@ -2,8 +2,9 @@ package this_shit_is_real;
 
 import this_shit_is_real.field.Field;
 import this_shit_is_real.field.FieldDirection;
-import this_shit_is_real.field.FieldPosition;
 import this_shit_is_real.gameobjects.*;
+
+import java.util.ArrayList;
 
 public class GamePlay {
 
@@ -14,10 +15,15 @@ public class GamePlay {
     private GameObjectsFactory factory;
     private final int ENEMY_MOVEMENTS = 16;
     private int enemyMovs;
+    private final int NORMAL_SPEED = 300;
+    private int enemySpeed;
+    private ArrayList<Bullets> bullets;
 
     public GamePlay(Game game) {
         field = game.getField();
         enemyMovs = ENEMY_MOVEMENTS;
+        enemySpeed = NORMAL_SPEED;
+        bullets = new ArrayList<Bullets>();
     }
 
     public void init() {
@@ -63,15 +69,18 @@ public class GamePlay {
 
     public void start() {
 
-        System.out.println("Let's start!");
-
         while (true) {
-            Wait.wait(300);
-            move();
+            Wait.wait(enemySpeed);
+            moveEnemies();
+
+            Wait.wait(NORMAL_SPEED - enemySpeed);
+            moveBullets();
+
         }
+
     }
 
-    private void move() {
+    private void moveEnemies() {
 
         // ENEMIES
         if (enemyMovs < 0) { enemyMovs = ENEMY_MOVEMENTS; }
@@ -94,6 +103,14 @@ public class GamePlay {
         }   boss.move(boss.getCurrentDirection(), 1);
 
 
+    }
+
+    private void moveBullets() {
 
     }
+
+    public void addBullet (Bullets bullet) {
+        bullets.add(bullet);
+    }
+    public void removeBullet (Bullets bullet) { bullets.remove(bullet); }
 }

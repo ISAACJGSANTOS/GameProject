@@ -48,8 +48,7 @@ public class Player extends GameObjects implements KeyboardHandler {
     public void shoot(){
         int row = getPos().getRow() - 1;
         int col = getPos().getCol();
-        Bullets bullet = factory.generateBullets(col, row);
-        // gamePlay.AddToArray(bullet);
+        gamePlay.addBullet(factory.generateBullets(col, row));
     }
 
     // KEYBOARD STAR -------------------------------------------------------------

@@ -8,10 +8,12 @@ public class Enemies extends GameObjects {
     private String name;
     private boolean damageOnTouch;
     private GameObjectsFactory factory;
+    private GamePlay gamePlay;
 
-    public Enemies (GameObjectsType type, FieldPosition[] pos, GamePlay game) {
+    public Enemies (GameObjectsType type, FieldPosition[] pos, GamePlay gamePlay) {
         super(type, pos);
-        this.factory = game.getFactory();
+        this.gamePlay = gamePlay;
+        this.factory = gamePlay.getFactory();
     }
 
     public boolean damageOnTouch(){
@@ -25,8 +27,8 @@ public class Enemies extends GameObjects {
     public void shoot(){
         int row = getPos().getRow() + 1;
         int col = getPos().getCol();
-        Bullets bullet = factory.generateBullets(col, row);
-        // gamePlay.AddToArray(bullet);
+        gamePlay.addBullet(factory.generateBullets(col, row));
+
     }
 
 
