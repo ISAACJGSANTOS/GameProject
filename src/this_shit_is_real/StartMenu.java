@@ -9,7 +9,6 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 import this_shit_is_real.field.Field;
 import this_shit_is_real.gameobjects.Button;
 import this_shit_is_real.gameobjects.GameObjectsFactory;
-import this_shit_is_real.gameobjects.Wait;
 
 public class StartMenu implements KeyboardHandler {
 
@@ -22,6 +21,8 @@ public class StartMenu implements KeyboardHandler {
     private KeyboardEvent downButton;
     private KeyboardEvent upButton;
     private KeyboardEvent spaceButton;
+    private boolean menuOn;
+    private boolean endGame;
 
     public StartMenu(GameObjectsFactory factory, Game game, Field field) {
         this.game = game;
@@ -30,6 +31,8 @@ public class StartMenu implements KeyboardHandler {
         buttons = new Button[3];
         keyboard = new Keyboard(this);
 
+        menuOn = true;
+        endGame = false;
         createMenu(factory);
     }
 
@@ -79,8 +82,8 @@ public class StartMenu implements KeyboardHandler {
             case KeyboardEvent.KEY_SPACE:
                 switch (selected) {
 
-                    case 0: deleteMenu(); game.play(); break;
-                    case 1: // game.quit(); break;
+                    case 1: endGame = true;
+                    case 0: menuOn = false; break;
                     case 2: // game.mute();
                 }
         }
@@ -111,5 +114,13 @@ public class StartMenu implements KeyboardHandler {
         keyboard.removeEventListener(upButton);
         keyboard.removeEventListener(downButton);
         keyboard.removeEventListener(spaceButton);
+    }
+
+    public boolean isMenuOn () {
+        return menuOn;
+    }
+
+    public boolean endGame() {
+        return endGame;
     }
 }
