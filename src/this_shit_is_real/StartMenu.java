@@ -36,11 +36,15 @@ public class StartMenu implements KeyboardHandler {
         createMenu(factory);
     }
 
+    public Picture getPic() {
+        return pic;
+    }
+
     public void createMenu(GameObjectsFactory factory){
-        pic = new Picture(field.getWidth(), field.getHeight());
+        pic = new Picture();
         pic.load("media/test_menu.jpg");
-        pic.draw();
         pic.translate(10, 10);
+        pic.draw();
 
         for (int i = 0; i < buttons.length; i++) { buttons[i] = factory.generateButton(9, 23 + i * 5); }
         buttons[selected].getPos().setColor(Color.RED);

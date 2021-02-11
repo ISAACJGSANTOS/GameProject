@@ -70,6 +70,7 @@ public class GamePlay {
     public void start() {
 
         while (true) {
+
             Wait.wait(enemySpeed);
             moveEnemies();
 
