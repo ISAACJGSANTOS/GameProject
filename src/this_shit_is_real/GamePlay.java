@@ -2,6 +2,7 @@ package this_shit_is_real;
 
 import this_shit_is_real.field.Field;
 import this_shit_is_real.field.FieldDirection;
+import this_shit_is_real.field.FieldPosition;
 import this_shit_is_real.gameobjects.*;
 
 public class GamePlay {
@@ -11,10 +12,12 @@ public class GamePlay {
     private final int TOTAL_ENEMIES = 32;
     private final int E_ROWS = 4;
     private GameObjectsFactory factory;
-    private int moveLimit = 15;
+    private final int ENEMY_MOVEMENTS = 16;
+    private int enemyMovs;
 
     public GamePlay(Game game) {
         field = game.getField();
+        enemyMovs = ENEMY_MOVEMENTS;
     }
 
     public void init() {
@@ -29,6 +32,7 @@ public class GamePlay {
         gameObjects[0] = player;
         Enemies boss = factory.generateBoss((int) col / 2, (int) row - ((int) row - 3));
         gameObjects[1] = boss;
+        boss.setCurrentDirection(FieldDirection.RIGHT);
 
         // Barriers
         for (int i = 0; i < (int) col; i++) {
@@ -68,19 +72,28 @@ public class GamePlay {
     }
 
     private void move() {
-        if (moveLimit < 0) { moveLimit = 14; }
 
+        // ENEMIES
+        if (enemyMovs < 0) { enemyMovs = ENEMY_MOVEMENTS; }
         for (int i = 4; i < gameObjects.length; i++) {
 
-            if (moveLimit > 7) { gameObjects[i].move(FieldDirection.RIGHT, 1); }
-            else if (moveLimit > 0) { gameObjects[i].move(FieldDirection.LEFT, 1); }
+            if (enemyMovs > ENEMY_MOVEMENTS / 2) { gameObjects[i].move(FieldDirection.RIGHT, 1); }
+            else if (enemyMovs > 0) { gameObjects[i].move(FieldDirection.LEFT, 1); }
             else { gameObjects[i].move(FieldDirection.DOWN, 1); }
         }
+        enemyMovs--;
 
-        moveLimit--;
+        // BOSS
+        Enemies boss = (Enemies) gameObjects[1];
+        int col = boss.getPos().getCol();
+
+        switch (boss.getCurrentDirection()) {
+            case RIGHT: if (col == field.getCols() - 2) { boss.setCurrentDirection(FieldDirection.LEFT); break; }
+            case LEFT: if (col == 0) { boss.setCurrentDirection(FieldDirection.DOWN); break; }
+            case DOWN: if (col == 0) { boss.setCurrentDirection(FieldDirection.RIGHT); break; }
+        }   boss.move(boss.getCurrentDirection(), 1);
+
+
+
     }
-
-
-
-
 }

@@ -14,29 +14,9 @@ public class GameObjects {
     private GameObjectsType type;
     private FieldDirection currentDirection;
 
-    public GameObjects (GameObjectsType type, FieldPosition pos) {
+    public GameObjects (GameObjectsType type, FieldPosition[] pos) {
         this.type = type;
-        myPos = new FieldPosition[type.getSize()];
-
-        init(pos);
-    }
-
-    public void init (FieldPosition pos) {
-        for (int i = 0; i < myPos.length; i++) {
-            myPos[i] = pos;
-            myPos[i].init(type.getColor());  // Ask FieldPosition to create the rectangle or image
-
-            // Let's set the final position for all the positions
-            switch (i) {
-                case 1:
-                case 3:
-                    myPos[i].moveInDirection(FieldDirection.RIGHT, 1);
-                    break;
-                case 2:
-                    myPos[i].moveInDirection(FieldDirection.DOWN, 1);
-                    myPos[i].moveInDirection(FieldDirection.LEFT, 1);
-            }
-        }
+        myPos = pos;
     }
 
     // Let's move all the object positions

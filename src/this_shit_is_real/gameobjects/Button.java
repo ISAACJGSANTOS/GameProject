@@ -5,7 +5,7 @@ public class Button extends GameObjects{
 
     GameObjectsType type;
 
-    public Button(GameObjectsType type, FieldPosition pos){
+    public Button(GameObjectsType type, FieldPosition[] pos){
         super(type, pos);
         this.type = type;
     }
