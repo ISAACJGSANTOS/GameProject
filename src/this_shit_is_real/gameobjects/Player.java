@@ -15,7 +15,7 @@ public class Player extends GameObjects implements KeyboardHandler {
     private GameObjectsFactory factory;
     private GamePlay gamePlay;
 
-    public Player(GameObjectsType type, FieldPosition pos, GamePlay game){
+    public Player(GameObjectsType type, FieldPosition[] pos, GamePlay game){
         super(type, pos);
         keyboard = new Keyboard(this);
         gamePlay = game;

@@ -2,6 +2,8 @@ package this_shit_is_real.gameobjects;
 
 import this_shit_is_real.GamePlay;
 import this_shit_is_real.field.Field;
+import this_shit_is_real.field.FieldDirection;
+import this_shit_is_real.field.FieldPosition;
 
 public class GameObjectsFactory {
 
@@ -19,36 +21,59 @@ public class GameObjectsFactory {
 
         switch (random) {
             case 0:
-                return new Enemies(GameObjectsType.VIRUS, field.makeFieldPosition(col, row));
+                return new Enemies(GameObjectsType.VIRUS, createFieldArray (col, row, GameObjectsType.VIRUS), gamePlay);
 
             case 1:
-                return new Enemies(GameObjectsType.VARIANT1, field.makeFieldPosition(col, row));
+                return new Enemies(GameObjectsType.VARIANT1, createFieldArray (col, row, GameObjectsType.VARIANT1), gamePlay);
 
             case 2:
-                return new Enemies(GameObjectsType.VARIANT2, field.makeFieldPosition(col, row));
+                return new Enemies(GameObjectsType.VARIANT2, createFieldArray (col, row, GameObjectsType.VARIANT2), gamePlay);
 
             default:
-                return new Enemies(GameObjectsType.VARIANT3, field.makeFieldPosition(col, row));
+                return new Enemies(GameObjectsType.VARIANT3, createFieldArray (col, row, GameObjectsType.VARIANT3), gamePlay);
         }
     }
 
     public Player generatePlayer(int col, int row){
-        return new Player(GameObjectsType.PLAYER, field.makeFieldPosition(col, row), gamePlay);
+        return new Player(GameObjectsType.PLAYER, createFieldArray (col, row, GameObjectsType.PLAYER), gamePlay);
     }
 
     public Enemies generateBoss(int col, int row){
-        return new Enemies(GameObjectsType.CREATOR, field.makeFieldPosition(col, row));
+        return new Enemies(GameObjectsType.CREATOR, createFieldArray (col, row, GameObjectsType.CREATOR), gamePlay);
     }
 
     public Bullets generateBullets(int col, int row){
-        return new Bullets(GameObjectsType.BULLET, field.makeFieldPosition(col, row));
+        return new Bullets(GameObjectsType.BULLET, createFieldArray (col, row, GameObjectsType.BULLET));
     }
 
     public Barriers generateBarriers(int col, int row){
-        return new Barriers(GameObjectsType.BARRIER, field.makeFieldPosition(col, row));
+        return new Barriers(GameObjectsType.BARRIER, createFieldArray (col, row, GameObjectsType.BARRIER));
     }
 
     public Button generateButton(int col, int row){
-        return new Button(GameObjectsType.MENU, field.makeFieldPosition(col, row));
+        return new Button(GameObjectsType.MENU, createFieldArray (col, row, GameObjectsType.MENU));
+    }
+
+    public FieldPosition[] createFieldArray (int col, int row, GameObjectsType type) {
+
+        int size = type.getSize();
+        FieldPosition[] pos = new FieldPosition[size];
+
+        for (int i = 0; i < size; i++) {
+            pos[i] = field.makeFieldPosition(col, row);
+            pos[i].init(type.getColor());  // Ask FieldPosition to create the rectangle or image
+
+            // Let's set the final position for all the positions
+            switch (i) {
+                case 3:
+                    pos[i].moveInDirection(FieldDirection.RIGHT, 1);
+                case 2:
+                    pos[i].moveInDirection(FieldDirection.DOWN, 1);
+                    break;
+                case 1:
+                    pos[i].moveInDirection(FieldDirection.RIGHT, 1);
+            }
+        }
+        return pos;
     }
 }
