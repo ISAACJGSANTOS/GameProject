@@ -14,6 +14,7 @@ public class Player extends GameObjects implements KeyboardHandler {
     private Keyboard keyboard;
     private GameObjectsFactory factory;
     private GamePlay gamePlay;
+    private Bullets bullet;
 
     public Player(GameObjectsType type, FieldPosition[] pos, GamePlay game){
         super(type, pos);
@@ -48,7 +49,9 @@ public class Player extends GameObjects implements KeyboardHandler {
     public void shoot(){
         int row = getPos().getRow() - 1;
         int col = getPos().getCol();
-        gamePlay.addBullet(factory.generateBullets(col, row));
+        Bullets bullet = factory.generateBullets(col, row);
+        bullet.setCurrentDirection(FieldDirection.UP);
+        gamePlay.addBullet(bullet);
     }
 
     // KEYBOARD STAR -------------------------------------------------------------

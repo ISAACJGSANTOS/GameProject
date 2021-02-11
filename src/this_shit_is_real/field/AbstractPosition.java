@@ -63,10 +63,9 @@ public abstract class AbstractPosition {
     }
     // END OF MOVEMENT LOGIC ------------------------------------------------------------------------
 
-    /*  Still not sure if this is necessary:
     public boolean equals(FieldPosition pos) {
         return this.col == pos.getCol() && this.row == pos.getRow();
-    } */
+    }
 
     public void show(){} // Although it is only filled on subclass, we need to create it here in order be able to call it on setPos().
 

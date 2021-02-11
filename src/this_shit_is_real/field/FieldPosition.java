@@ -28,11 +28,11 @@ public class FieldPosition extends AbstractPosition {
     }
 
     @Override
-    public void show() {  // Soon to be adjusted to rectangles
+    public void show() {  // Soon to be adjusted to image
         rectangle.setColor(color);
         rectangle.fill();
     }
-    public void hide() { rectangle.delete(); }   // Soon to be adjusted to rectangles
+    public void hide() { rectangle.delete(); }   // Soon to be adjusted to image
 
     public void setColor(Color color) {
         this.color = color;

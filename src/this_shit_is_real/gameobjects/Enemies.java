@@ -1,6 +1,7 @@
 package this_shit_is_real.gameobjects;
 
 import this_shit_is_real.GamePlay;
+import this_shit_is_real.field.FieldDirection;
 import this_shit_is_real.field.FieldPosition;
 
 public class Enemies extends GameObjects {
@@ -27,8 +28,9 @@ public class Enemies extends GameObjects {
     public void shoot(){
         int row = getPos().getRow() + 1;
         int col = getPos().getCol();
-        gamePlay.addBullet(factory.generateBullets(col, row));
-
+        Bullets bullet = factory.generateBullets(col, row);
+        bullet.setCurrentDirection(FieldDirection.DOWN);
+        gamePlay.addBullet(bullet);
     }
 
 
