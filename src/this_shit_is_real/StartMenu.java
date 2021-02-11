@@ -46,16 +46,6 @@ public class StartMenu implements KeyboardHandler {
         activateKeyboard();
     }
 
-    public void resetMenu(){
-        pic.delete();
-        for (Button b: buttons) {
-            b.getPos().hide();
-        }
-        keyboard.removeEventListener(upButton);
-        keyboard.removeEventListener(downButton);
-        keyboard.removeEventListener(spaceButton);
-    }
-
     public void activateKeyboard() {
         downButton = new KeyboardEvent();
         downButton.setKey(KeyboardEvent.KEY_DOWN);
@@ -86,14 +76,10 @@ public class StartMenu implements KeyboardHandler {
             case KeyboardEvent.KEY_UP:
                 if (selected > 0) { selected --; changeImage(); }
                 break;
-
             case KeyboardEvent.KEY_SPACE:
                 switch (selected) {
-                    case 0:
-                        resetMenu();
-                        Wait.wait(20);
-                        game.play();
-                        break;
+
+                    case 0: deleteMenu(); game.play(); break;
                     case 1: // game.quit(); break;
                     case 2: // game.mute();
                 }
@@ -115,4 +101,15 @@ public class StartMenu implements KeyboardHandler {
 
     @Override
     public void keyReleased(KeyboardEvent keyboardEvent) {}
+
+    public void deleteMenu() {
+        pic.delete();
+        for (Button b: buttons) {
+            b.getPos().hide();
+            b = null;
+        }
+        keyboard.removeEventListener(upButton);
+        keyboard.removeEventListener(downButton);
+        keyboard.removeEventListener(spaceButton);
+    }
 }
