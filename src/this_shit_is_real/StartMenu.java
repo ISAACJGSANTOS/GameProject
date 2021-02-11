@@ -9,6 +9,7 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 import this_shit_is_real.field.Field;
 import this_shit_is_real.gameobjects.Button;
 import this_shit_is_real.gameobjects.GameObjectsFactory;
+import this_shit_is_real.gameobjects.Wait;
 
 public class StartMenu implements KeyboardHandler {
 
@@ -18,6 +19,9 @@ public class StartMenu implements KeyboardHandler {
     private Button[] buttons;
     private int selected;
     private Picture pic;
+    private KeyboardEvent downButton;
+    private KeyboardEvent upButton;
+    private KeyboardEvent spaceButton;
 
     public StartMenu(GameObjectsFactory factory, Game game, Field field) {
         this.game = game;
@@ -42,16 +46,26 @@ public class StartMenu implements KeyboardHandler {
         activateKeyboard();
     }
 
+    public void resetMenu(){
+        pic.delete();
+        for (Button b: buttons) {
+            b.getPos().hide();
+        }
+        keyboard.removeEventListener(upButton);
+        keyboard.removeEventListener(downButton);
+        keyboard.removeEventListener(spaceButton);
+    }
+
     public void activateKeyboard() {
-        KeyboardEvent downButton = new KeyboardEvent();
+        downButton = new KeyboardEvent();
         downButton.setKey(KeyboardEvent.KEY_DOWN);
         downButton.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
 
-        KeyboardEvent upButton = new KeyboardEvent();
+        upButton = new KeyboardEvent();
         upButton.setKey(KeyboardEvent.KEY_UP);
         upButton.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
 
-        KeyboardEvent spaceButton = new KeyboardEvent();
+        spaceButton = new KeyboardEvent();
         spaceButton.setKey(KeyboardEvent.KEY_SPACE);
         spaceButton.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
 
@@ -76,8 +90,8 @@ public class StartMenu implements KeyboardHandler {
             case KeyboardEvent.KEY_SPACE:
                 switch (selected) {
                     case 0:
-                        pic.delete();
-                        for (Button b: buttons) {b.getPos().hide();}
+                        resetMenu();
+                        Wait.wait(20);
                         game.play();
                         break;
                     case 1: // game.quit(); break;

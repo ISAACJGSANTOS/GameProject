@@ -1,6 +1,7 @@
 package this_shit_is_real;
 
 import this_shit_is_real.field.Field;
+import this_shit_is_real.field.FieldDirection;
 import this_shit_is_real.gameobjects.*;
 
 public class GamePlay {
@@ -56,5 +57,36 @@ public class GamePlay {
     }
 
     public void start() {
+        int i = 0;
+
+        while(i < 10){
+            Wait.wait(20);
+            move();
+            i++;
+        }
+
     }
+
+    private void move() {
+        int counter = 0;
+        int colsM = 4;
+        int distance = 1;
+
+        for(int i = 4; i < gameObjects.length; i++){
+
+            if(counter <= colsM) {
+                gameObjects[i].move(FieldDirection.RIGHT, 1);
+            }else if(counter <= colsM + colsM){
+                gameObjects[i].move(FieldDirection.LEFT, 1);
+            } else {
+                gameObjects[i].move(FieldDirection.DOWN, 1);
+                counter = 0;
+            }
+        }
+        counter++;
+    }
+
+
+
+
 }

@@ -21,6 +21,7 @@ public class Game {
     }
 
     public void play() {
+
         gamePlay.init();
         gamePlay.start();
     }
