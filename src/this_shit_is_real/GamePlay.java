@@ -6,10 +6,12 @@ import this_shit_is_real.field.FieldPosition;
 import this_shit_is_real.gameobjects.*;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GamePlay {
 
-    private ArrayList<GameObjects> gameObjects;
+    private CopyOnWriteArrayList<GameObjects> gameObjects;
     private Field field;
     private final int TOTAL_ENEMIES = 32;
     private final int E_ROWS = 4;
@@ -18,12 +20,13 @@ public class GamePlay {
     private int enemyMovs;
     private final int SPEED = 300;
     private int enemySpeed;
-    private ArrayList<Bullets> bullets;
+    private CopyOnWriteArrayList<Bullets> bullets;
     private int counter;
+    Player player;
 
     public GamePlay(Game game) {
         field = game.getField();
-        bullets = new ArrayList<>();
+        bullets = new CopyOnWriteArrayList<>();
         enemySpeed = 1;
         counter = 0;
     }
@@ -31,12 +34,12 @@ public class GamePlay {
     public void init() {
         factory = new GameObjectsFactory(field, this);
 
-        gameObjects = new ArrayList<GameObjects> ();
+        gameObjects = new CopyOnWriteArrayList<GameObjects> ();
 
-        int row = field.getRows();
         int col = field.getCols();
+        int row = field.getRows();
 
-        Player player = factory.generatePlayer((int) col / 2, (int) row - 4);
+        player = factory.generatePlayer((int) col / 2, (int) row - 4);
         gameObjects.add(player);
 
         // Barriers
@@ -133,11 +136,13 @@ public class GamePlay {
 
         for(Bullets b : bullets){
             if(b.getCurrentDirection() == FieldDirection.DOWN){
+                if(b.getPos().getRow() == field.getRows() - 1){ b.kill(); }
                 for(int i = 0; i < 4; i++){
                     GameObjects o = gameObjects.get(i);
                     if (!o.isDead() && comparePos(b, o)) { hit(b, o); }
                 }
             } else {
+                if(b.getPos().getRow() == 0){ b.kill(); }
                 for(int i = 1; i < gameObjects.size(); i++){
                     GameObjects o = gameObjects.get(i);
                     if (!o.isDead() && comparePos(b, o)) { hit(b, o); }
@@ -146,7 +151,18 @@ public class GamePlay {
         }
 
         for (GameObjects o : gameObjects) {
-            if (!o.isDead() && o.getHealth() <= 0) { o.kill(); }
+            if(!o.isDead() && o.getHealth() <= 0) {
+                if(o instanceof Enemies){
+                    player.addScore(60);
+                    System.out.println(player.getScore());
+                    o.kill();
+                } else if(o instanceof Player){
+                    player.setHealth(player.getType().getHealth());
+                    player.setLifes(player.getLifes() - 1);
+                } else {
+                    o.kill();
+                }
+            }
         }
 
         bullets.removeIf(bullet -> (bullet.isDead()));
