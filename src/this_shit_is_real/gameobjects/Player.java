@@ -15,6 +15,7 @@ public class Player extends GameObjects implements KeyboardHandler {
     private GameObjectsFactory factory;
     private GamePlay gamePlay;
     private Bullets bullet;
+    private int lifes;
 
     public Player(GameObjectsType type, FieldPosition[] pos, GamePlay game){
         super(type, pos);
@@ -22,6 +23,8 @@ public class Player extends GameObjects implements KeyboardHandler {
         gamePlay = game;
         factory = gamePlay.getFactory();
         init();
+        score = 0;
+        lifes = 3;
     }
 
     public void init() {
@@ -75,4 +78,19 @@ public class Player extends GameObjects implements KeyboardHandler {
 
     // KEYBOARD END --------------------------------------------------------------
 
+    public int getScore() {
+        return score;
+    }
+
+    public void addScore(int add) {
+        score += add;
+    }
+
+    public int getLifes() {
+        return lifes;
+    }
+
+    public void setLifes(int lifes) {
+        this.lifes = lifes;
+    }
 }

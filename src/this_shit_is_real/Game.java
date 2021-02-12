@@ -13,7 +13,6 @@ public class Game {
 
     public Game(int col, int row){
         field = new Field(col,row);
-
     }
 
     public void init() {
