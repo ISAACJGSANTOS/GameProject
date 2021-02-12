@@ -9,4 +9,5 @@ public class Button extends GameObjects{
         super(type, pos);
         this.type = type;
     }
+
 }

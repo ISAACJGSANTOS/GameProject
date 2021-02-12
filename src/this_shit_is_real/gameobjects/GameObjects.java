@@ -9,7 +9,6 @@ import this_shit_is_real.field.FieldPosition;
 public class GameObjects {
 
     private FieldPosition[] myPos;
-    private Picture image;
     private int health;
     private GameObjectsType type;
     private FieldDirection currentDirection;
@@ -41,7 +40,6 @@ public class GameObjects {
     }
 
     public boolean isDead() { return dead; }
-    public Picture getImage() { return image; }
     public FieldPosition getPos() { return myPos[0]; }
     public FieldDirection getCurrentDirection() { return currentDirection; }
     public int getHealth() { return health; }

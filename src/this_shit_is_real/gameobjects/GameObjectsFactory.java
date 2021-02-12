@@ -17,7 +17,7 @@ public class GameObjectsFactory {
 
     public Enemies generateEnemy(int col, int row) {
 
-        int random = (int) (Math.random() * 4);
+        int random = (int) (Math.random() * 3);
 
         switch (random) {
             case 0:
@@ -26,11 +26,8 @@ public class GameObjectsFactory {
             case 1:
                 return new Enemies(GameObjectsType.VARIANT1, createFieldArray (col, row, GameObjectsType.VARIANT1), gamePlay);
 
-            case 2:
-                return new Enemies(GameObjectsType.VARIANT2, createFieldArray (col, row, GameObjectsType.VARIANT2), gamePlay);
-
             default:
-                return new Enemies(GameObjectsType.VARIANT3, createFieldArray (col, row, GameObjectsType.VARIANT3), gamePlay);
+                return new Enemies(GameObjectsType.VARIANT2, createFieldArray (col, row, GameObjectsType.VARIANT2), gamePlay);
         }
     }
 
@@ -61,7 +58,7 @@ public class GameObjectsFactory {
 
         for (int i = 0; i < size; i++) {
             pos[i] = field.makeFieldPosition(col, row);
-            pos[i].init(type.getColor());  // Ask FieldPosition to create the rectangle or image
+            pos[i].init(type.getPaths());  // Ask FieldPosition to create the rectangle or image
 
             // Let's set the final position for all the positions
             switch (i) {

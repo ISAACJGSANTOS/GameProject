@@ -123,22 +123,6 @@ public class GamePlay {
         enemy.shoot();
     }
 
-
-    private boolean comparePos (GameObjects o1, GameObjects o2) {
-        if (o1.getPos() == o2.getPos()) { return false; }
-
-        FieldPosition[] allPos1 = o1.getAllPos();
-        FieldPosition[] allPos2 = o2.getAllPos();
-
-        for (FieldPosition pos1 : allPos1) {
-            for (FieldPosition pos2 : allPos2) {
-                if (pos1.equals(pos2)) { return true; }
-            }
-        }
-
-        return false;
-    }
-
     private void checkCollision(){
 
         for (GameObjects o1 : gameObjects) {
@@ -166,6 +150,21 @@ public class GamePlay {
         }
 
         bullets.removeIf(bullet -> (bullet.isDead()));
+    }
+
+    private boolean comparePos (GameObjects o1, GameObjects o2) {
+        if (o1.getPos() == o2.getPos()) { return false; }
+
+        FieldPosition[] allPos1 = o1.getAllPos();
+        FieldPosition[] allPos2 = o2.getAllPos();
+
+        for (FieldPosition pos1 : allPos1) {
+            for (FieldPosition pos2 : allPos2) {
+                if (pos1.equals(pos2)) { return true; }
+            }
+        }
+
+        return false;
     }
 
     private void hit (Bullets b, GameObjects o) {
