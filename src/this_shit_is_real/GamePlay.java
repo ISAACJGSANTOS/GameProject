@@ -2,116 +2,179 @@ package this_shit_is_real;
 
 import this_shit_is_real.field.Field;
 import this_shit_is_real.field.FieldDirection;
+import this_shit_is_real.field.FieldPosition;
 import this_shit_is_real.gameobjects.*;
 
 import java.util.ArrayList;
 
 public class GamePlay {
 
-    private GameObjects[] gameObjects;
+    private ArrayList<GameObjects> gameObjects;
     private Field field;
     private final int TOTAL_ENEMIES = 32;
     private final int E_ROWS = 4;
     private GameObjectsFactory factory;
-    private final int ENEMY_MOVEMENTS = 16;
+    private int enemyMovement = 16;
     private int enemyMovs;
-    private final int NORMAL_SPEED = 300;
+    private final int SPEED = 300;
     private int enemySpeed;
     private ArrayList<Bullets> bullets;
+    private int counter;
 
     public GamePlay(Game game) {
         field = game.getField();
-        enemyMovs = ENEMY_MOVEMENTS;
-        enemySpeed = NORMAL_SPEED;
-        bullets = new ArrayList<Bullets>();
+        bullets = new ArrayList<>();
+        enemySpeed = 1;
+        counter = 0;
     }
 
     public void init() {
         factory = new GameObjectsFactory(field, this);
 
-        gameObjects = new GameObjects[TOTAL_ENEMIES + 4];
+        gameObjects = new ArrayList<GameObjects> ();
 
         int row = field.getRows();
         int col = field.getCols();
 
         Player player = factory.generatePlayer((int) col / 2, (int) row - 4);
-        gameObjects[0] = player;
-        Enemies boss = factory.generateBoss((int) col / 2, (int) row - ((int) row - 3));
-        gameObjects[1] = boss;
-        boss.setCurrentDirection(FieldDirection.RIGHT);
+        gameObjects.add(player);
 
         // Barriers
-        for (int i = 0; i < (int) col; i++) {
-            if (i == (int) col / 4) {
-                gameObjects[2] = factory.generateBarriers(i, row - 8);
-            } else if (i == ((int) col / 2) + ((int) col / 4)) {
-                gameObjects[3] = factory.generateBarriers(i, row - 8);
-            }
+        for (int i = 0; i < 3; i++) {
+            gameObjects.add(factory.generateBarriers(i * (col / 4) + (col / 4), row - 8));
         }
+
+        Enemies boss = factory.generateBoss((int) col / 2, (int) row - ((int) row - 3));
+        gameObjects.add(boss);
+        boss.setCurrentDirection(FieldDirection.RIGHT);
 
         // 32 enemies (8 per row, 4 per col)
         int x = (TOTAL_ENEMIES / E_ROWS) * 2;
-        int index = 4;
 
         for (int i = 1; i < x; i++) {
             for (int j = 7; j <= 9 + E_ROWS; j++) {
                 if (i % 2 != 0 && j % 2 != 0) {
-                    gameObjects[index] = factory.generateEnemy(i, j);
-                    index++;
+                    gameObjects.add(factory.generateEnemy(i, j));
                 }
             }
         }
     }
 
-    public GameObjectsFactory getFactory() {
-        return factory;
-    }
-
     public void start() {
+        enemySpeed = 1;
+        enemyMovement = (int) enemyMovement / enemySpeed;
+        enemyMovs = enemyMovement;
 
         while (true) {
-
-            Wait.wait(enemySpeed);
+            counter++;
+            Wait.wait(SPEED);
             moveEnemies();
-
-            Wait.wait(NORMAL_SPEED - enemySpeed);
             moveBullets();
-
+            if ( counter % 10 == 0){ enemyShoot(); }
+            checkCollision();
         }
-
     }
 
     private void moveEnemies() {
 
         // ENEMIES
-        if (enemyMovs < 0) { enemyMovs = ENEMY_MOVEMENTS; }
-        for (int i = 4; i < gameObjects.length; i++) {
+        if (enemyMovs < 0) { enemyMovs = enemyMovement; }
 
-            if (enemyMovs > ENEMY_MOVEMENTS / 2) { gameObjects[i].move(FieldDirection.RIGHT, 1); }
-            else if (enemyMovs > 0) { gameObjects[i].move(FieldDirection.LEFT, 1); }
-            else { gameObjects[i].move(FieldDirection.DOWN, 1); }
+        for (int i = 5; i < gameObjects.size(); i++) {
+
+            Enemies e = (Enemies) gameObjects.get(i);
+
+            if (!e.isDead()) {
+                if (enemyMovs > enemyMovement / 2) { e.move(FieldDirection.RIGHT, enemySpeed); }
+                else if (enemyMovs > 0) { e.move(FieldDirection.LEFT, enemySpeed); }
+                else { e.move(FieldDirection.DOWN, enemySpeed); }
+            }
         }
+
         enemyMovs--;
 
         // BOSS
-        Enemies boss = (Enemies) gameObjects[1];
-        int col = boss.getPos().getCol();
+        Enemies boss = (Enemies) gameObjects.get(4);
 
-        switch (boss.getCurrentDirection()) {
-            case RIGHT: if (col == field.getCols() - 2) { boss.setCurrentDirection(FieldDirection.LEFT); break; }
-            case LEFT: if (col == 0) { boss.setCurrentDirection(FieldDirection.DOWN); break; }
-            case DOWN: if (col == 0) { boss.setCurrentDirection(FieldDirection.RIGHT); break; }
-        }   boss.move(boss.getCurrentDirection(), 1);
+        if (!boss.isDead()) {
+            int col = boss.getPos().getCol();
 
+            switch (boss.getCurrentDirection()) {
+                case RIGHT: if (col == field.getCols() - 2) { boss.setCurrentDirection(FieldDirection.LEFT);break; }
+                case LEFT: if (col == 0) { boss.setCurrentDirection(FieldDirection.DOWN);break; }
+                case DOWN: if (col == 0) { boss.setCurrentDirection(FieldDirection.RIGHT);break; }
+            }
+
+            boss.move(boss.getCurrentDirection(), enemySpeed);
+        }
 
     }
 
     private void moveBullets() {
-
+        for(Bullets bullet : bullets) {
+            bullet.move(bullet.getCurrentDirection(), 1);
+        }
     }
 
-    public void addBullet (Bullets bullet) {
-        bullets.add(bullet);
+    private void enemyShoot(){
+        int i = (int) (Math.random() * (TOTAL_ENEMIES + 1) + 4);
+
+        Enemies enemy = (Enemies) gameObjects.get(i);
+        enemy.shoot();
     }
-    public void removeBullet (Bullets bullet) { bullets.remove(bullet); }
+
+
+    private boolean comparePos (GameObjects o1, GameObjects o2) {
+        if (o1.getPos() == o2.getPos()) { return false; }
+
+        FieldPosition[] allPos1 = o1.getAllPos();
+        FieldPosition[] allPos2 = o2.getAllPos();
+
+        for (FieldPosition pos1 : allPos1) {
+            for (FieldPosition pos2 : allPos2) {
+                if (pos1.equals(pos2)) { return true; }
+            }
+        }
+
+        return false;
+    }
+
+    private void checkCollision(){
+
+        for (GameObjects o1 : gameObjects) {
+            for (GameObjects o2 : gameObjects) {
+                if (!o1.isDead() && !o2.isDead() && comparePos(o1, o2)) { o1.hit(o2.getDamage()); }
+            }
+        }
+
+        for(Bullets b : bullets){
+            if(b.getCurrentDirection() == FieldDirection.DOWN){
+                for(int i = 0; i < 4; i++){
+                    GameObjects o = gameObjects.get(i);
+                    if (!o.isDead() && comparePos(b, o)) { hit(b, o); }
+                }
+            } else {
+                for(int i = 1; i < gameObjects.size(); i++){
+                    GameObjects o = gameObjects.get(i);
+                    if (!o.isDead() && comparePos(b, o)) { hit(b, o); }
+                }
+            }
+        }
+
+        for (GameObjects o : gameObjects) {
+            if (!o.isDead() && o.getHealth() <= 0) { o.kill(); }
+        }
+
+        bullets.removeIf(bullet -> (bullet.isDead()));
+    }
+
+    private void hit (Bullets b, GameObjects o) {
+        b.hit(o.getDamage());
+        o.hit(b.getDamage());
+        b.kill();
+        System.out.println(o.getType() + ": " + o.getHealth());
+    }
+
+    public void addBullet (Bullets bullet) { bullets.add(bullet); }
+    public GameObjectsFactory getFactory() { return factory; }
 }

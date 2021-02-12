@@ -13,10 +13,15 @@ public class GameObjects {
     private int health;
     private GameObjectsType type;
     private FieldDirection currentDirection;
+    private int damage;
+    private boolean dead;
 
     public GameObjects (GameObjectsType type, FieldPosition[] pos) {
         this.type = type;
         myPos = pos;
+        damage = type.getDamage();
+        health = type.getHealth();
+        dead = false;
     }
 
     // Let's move all the object positions
@@ -26,31 +31,28 @@ public class GameObjects {
         }
     }
 
-    public Picture getImage() {
-        return image;
-    }
-    public FieldPosition getPos() {
-        return myPos[0];
-    }
-    public FieldDirection getCurrentDirection() {
-        return currentDirection;
-    }
-    public int getHealth() {
-        return health;
-    }
-    public FieldPosition[] getMyPos() {
-        return myPos;
+    public void kill() {
+        dead = true;
+        for (FieldPosition pos : myPos) { pos.hide(); }
     }
 
-    public void setCurrentDirection(FieldDirection currentDirection) {
-        this.currentDirection = currentDirection;
+    public void hit(int damage){
+        health -= damage;
     }
-    public void setHealth(int health) {
-        this.health = health;
-    }
+
+    public boolean isDead() { return dead; }
+    public Picture getImage() { return image; }
+    public FieldPosition getPos() { return myPos[0]; }
+    public FieldDirection getCurrentDirection() { return currentDirection; }
+    public int getHealth() { return health; }
+    public FieldPosition[] getAllPos() { return myPos; }
+    public int getDamage() { return damage; }
+    public GameObjectsType getType() { return type; }
+
+    public void setCurrentDirection(FieldDirection currentDirection) { this.currentDirection = currentDirection; }
+    public void setHealth(int health) { this.health = health; }
+    public void setDamage(int damage) { this.damage = damage; }
 
     @Override
-    public String toString() {
-        return getClass().getSimpleName();
-    }
+    public String toString() { return getClass().getSimpleName(); }
 }

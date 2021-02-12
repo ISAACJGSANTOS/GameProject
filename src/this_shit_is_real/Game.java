@@ -22,9 +22,7 @@ public class Game {
 
         startMenu = new StartMenu(factory,this, getField());
 
-        while (startMenu.isMenuOn()) {
-            System.out.println("");
-        }
+        while (startMenu.isMenuOn()) { System.out.println(""); }
         if (startMenu.endGame()) { quit(); }
 
         startMenu.deleteMenu();
