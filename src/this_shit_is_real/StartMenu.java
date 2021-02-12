@@ -9,6 +9,7 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 import this_shit_is_real.field.Field;
 import this_shit_is_real.gameobjects.Button;
 import this_shit_is_real.gameobjects.GameObjectsFactory;
+import this_shit_is_real.sounds.GameSounds;
 
 public class StartMenu implements KeyboardHandler {
 
