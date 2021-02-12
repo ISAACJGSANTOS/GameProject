@@ -59,7 +59,7 @@ public abstract class AbstractPosition {
     public void setPos(int col, int row) { // Changes the abstract position of the object (not it's representation)
         this.col = col;
         this.row = row;
-        show();
+        show(0);
     }
     // END OF MOVEMENT LOGIC ------------------------------------------------------------------------
 
@@ -67,7 +67,7 @@ public abstract class AbstractPosition {
         return this.col == pos.getCol() && this.row == pos.getRow();
     }
 
-    public void show(){} // Although it is only filled on subclass, we need to create it here in order be able to call it on setPos().
+    public void show(int img){} // Although it is only filled on subclass, we need to create it here in order be able to call it on setPos().
 
     // GETTERS
     public Field getField() {

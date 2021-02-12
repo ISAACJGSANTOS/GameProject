@@ -2,6 +2,7 @@ package this_shit_is_real.field;
 
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 /*
    This class represents the logic position of the GameObject and its representation on the field.
@@ -13,6 +14,8 @@ public class FieldPosition extends AbstractPosition {
     private Rectangle rectangle;
     private Field field;
     private Color color;
+    private Picture image;
+    private String[] paths;
 
     public FieldPosition(int col, int row, Field field) {
         super(col, row, field);
@@ -20,19 +23,29 @@ public class FieldPosition extends AbstractPosition {
     }
 
     // This method is called by the GameObject (the owner of FieldPosition) to show the object on canvas for the first time
-    public void init (Color color) {
-        // Until we have the images, we'll use rectangles to represent the objects
+    public void init (String[] paths) {
+        this.paths = paths;
+        image = new Picture();
+        image.translate(field.columnToXinPixels(getCol()), field.rowToYinPixels(getRow()));
+
+        /*
         this.color = color;
         rectangle = new Rectangle(field.columnToXinPixels(getCol()), field.rowToYinPixels(getRow()), field.getCellSize(),field.getCellSize());
-        show();
+        show(); */
+    }
+
+    public void setPath(String[] paths) {
+        this.paths = paths;
     }
 
     @Override
-    public void show() {  // Soon to be adjusted to image
-        rectangle.setColor(color);
-        rectangle.fill();
+    public void show(int img) {  // Soon to be adjusted to image
+        // rectangle.setColor(color);
+        // rectangle.fill();
+        image.load(paths[img]);
+        image.draw();
     }
-    public void hide() { rectangle.delete(); }   // Soon to be adjusted to image
+    public void hide() { /* rectangle.delete(); */ image.delete(); }   // Soon to be adjusted to image
 
     public void setColor(Color color) {
         this.color = color;
@@ -52,6 +65,7 @@ public class FieldPosition extends AbstractPosition {
         int xFinal = field.columnToXinPixels(getCol());
         int yFinal = field.rowToYinPixels(getRow());
 
-        rectangle.translate(xFinal - xStart, yFinal - yStart);  // This method of Rectangle receives ONLY the movement in pixels (= FP - CP)
+        // rectangle.translate(xFinal - xStart, yFinal - yStart);  // This method of Rectangle receives ONLY the movement in pixels (= FP - CP)
+        image.translate(xFinal - xStart, yFinal - yStart);  // This method of Rectangle receives ONLY the movement in pixels (= FP - CP)
     }
 }
