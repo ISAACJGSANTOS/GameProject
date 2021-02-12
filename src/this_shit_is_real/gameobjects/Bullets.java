@@ -4,20 +4,8 @@ import this_shit_is_real.field.FieldPosition;
 
 public class Bullets extends GameObjects{
 
-    private int bulletDamage;
-    private GameObjects ally;
-    private boolean damageOnTouch;
-
     public Bullets(GameObjectsType type, FieldPosition[] pos){
         super(type, pos);
-    }
-
-    public boolean damageOnTouch(){
-        return damageOnTouch;
-    }
-
-    public int hit(int bulletDamage){
-        return bulletDamage;
     }
 
 }

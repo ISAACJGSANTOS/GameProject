@@ -8,12 +8,4 @@ public class Barriers extends GameObjects{
         super(type, pos);
     }
 
-    public void hit(int bulletDamage){
-        setHealth(getHealth() - bulletDamage);
-    }
-
-    public void hide(){
-
-    }
-
 }

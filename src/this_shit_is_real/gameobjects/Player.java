@@ -42,15 +42,12 @@ public class Player extends GameObjects implements KeyboardHandler {
         keyboard.addEventListener(shoot);
     }
 
-    public void hit(int bulletDamage){
-        setHealth(getHealth() - bulletDamage);
-    }
-
     public void shoot(){
         int row = getPos().getRow() - 1;
         int col = getPos().getCol();
         Bullets bullet = factory.generateBullets(col, row);
         bullet.setCurrentDirection(FieldDirection.UP);
+        bullet.setDamage(getDamage());
         gamePlay.addBullet(bullet);
     }
 

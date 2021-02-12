@@ -21,17 +21,13 @@ public class Enemies extends GameObjects {
         return damageOnTouch;
     }
 
-    public void hit(int bulletDamage){
-       setHealth(getHealth() - bulletDamage);
-    }
-
     public void shoot(){
         int row = getPos().getRow() + 1;
         int col = getPos().getCol();
         Bullets bullet = factory.generateBullets(col, row);
         bullet.setCurrentDirection(FieldDirection.DOWN);
+        bullet.setDamage(getDamage());
         gamePlay.addBullet(bullet);
     }
-
 
 }
