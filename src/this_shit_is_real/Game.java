@@ -3,6 +3,7 @@ package this_shit_is_real;
 import this_shit_is_real.field.Field;
 import this_shit_is_real.gameobjects.GameObjectsFactory;
 import this_shit_is_real.gameobjects.Wait;
+import this_shit_is_real.sounds.GameSounds;
 
 public class Game {
 
@@ -19,6 +20,8 @@ public class Game {
         gamePlay = new GamePlay(this);
 
         GameObjectsFactory factory = new GameObjectsFactory(field, gamePlay);
+        GameSounds.startMenu.play(true);
+        GameSounds.startMenu.setLoop(1000);
 
         startMenu = new StartMenu(factory,this, getField());
 
@@ -26,14 +29,18 @@ public class Game {
         if (startMenu.endGame()) { quit(); }
 
         startMenu.deleteMenu();
+        GameSounds.startMenu.close();
         play();
     }
 
     public void play() {
+        GameSounds.gameMusic.play(true);
+        GameSounds.gameMusic.setLoop(1000);
 
         gamePlay.init();
         Wait.wait(500);
         gamePlay.start();
+
     }
 
     public void quit() {
