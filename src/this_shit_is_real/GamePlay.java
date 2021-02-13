@@ -48,7 +48,7 @@ public class GamePlay {
 
         // Background
         pic = new Picture();
-        pic.load("media/Game_background-01.png");
+        pic.load("media/Menu_background_3.png");
         pic.translate(10, 10);
         pic.draw();
 

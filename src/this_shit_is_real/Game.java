@@ -10,12 +10,12 @@ public class Game {
     private Field field;
     private StartMenu startMenu;
     private GamePlay gamePlay;
-    private GameOverMenu gameOverMenu;
 
 
     public Game(int col, int row){
         field = new Field(col,row);
-        System.out.println("Field :" + field.getHeight());
+        System.out.println("Field :" + field.getWidth());
+        System.out.println(field.getHeight());
     }
 
     public void init() {
@@ -26,7 +26,6 @@ public class Game {
         GameSounds.startMenu.setLoop(1000);
 
         startMenu = new StartMenu(factory,this, getField());
-        gameOverMenu = new GameOverMenu(factory,this, getField());
 
         while (startMenu.isMenuOn()) { System.out.println(""); }
         if (startMenu.endGame()) { quit(); }
