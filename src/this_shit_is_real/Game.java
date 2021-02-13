@@ -19,8 +19,8 @@ public class Game {
         gamePlay = new GamePlay(this);
 
         GameObjectsFactory factory = new GameObjectsFactory(field, gamePlay);
-        // GameSounds.startMenu.play(true);
-        // GameSounds.startMenu.setLoop(1000);
+        GameSounds.startMenu.play(true);
+        GameSounds.startMenu.setLoop(1000);
 
         startMenu = new StartMenu(factory,this, getField());
 
@@ -28,13 +28,13 @@ public class Game {
         if (startMenu.endGame()) { quit(); }
 
         startMenu.deleteMenu();
-        // GameSounds.startMenu.close();
+        GameSounds.startMenu.close();
         play();
     }
 
     public void play() {
-        // GameSounds.gameMusic.play(true);
-        // GameSounds.gameMusic.setLoop(1000);
+        GameSounds.gameMusic.play(true);
+        GameSounds.gameMusic.setLoop(1000);
 
         gamePlay.init();
         Wait.wait(500);

@@ -7,7 +7,6 @@ import this_shit_is_real.field.FieldPosition;
 public class Enemies extends GameObjects {
 
     private String name;
-    private boolean damageOnTouch;
     private GameObjectsFactory factory;
     private GamePlay gamePlay;
 
@@ -17,14 +16,10 @@ public class Enemies extends GameObjects {
         this.factory = gamePlay.getFactory();
     }
 
-    public boolean damageOnTouch(){
-        return damageOnTouch;
-    }
-
     public void shoot(){
         int row = getPos().getRow() + 1;
         int col = getPos().getCol();
-        Bullets bullet = factory.generateBullets(col, row);
+        Bullets bullet = factory.generateBulletsEnemy(col, row);
         bullet.setCurrentDirection(FieldDirection.DOWN);
         bullet.setDamage(getDamage());
         gamePlay.addBullet(bullet);

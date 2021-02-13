@@ -8,6 +8,8 @@ import this_shit_is_real.GamePlay;
 import this_shit_is_real.field.FieldDirection;
 import this_shit_is_real.field.FieldPosition;
 
+import java.util.concurrent.CopyOnWriteArrayList;
+
 public class Player extends GameObjects implements KeyboardHandler {
 
     private int score;
@@ -16,6 +18,7 @@ public class Player extends GameObjects implements KeyboardHandler {
     private GamePlay gamePlay;
     private Bullets bullet;
     private int lifes;
+    private int originalHealth;
 
     public Player(GameObjectsType type, FieldPosition[] pos, GamePlay game){
         super(type, pos);
@@ -25,6 +28,7 @@ public class Player extends GameObjects implements KeyboardHandler {
         init();
         score = 0;
         lifes = 3;
+        originalHealth = getHealth();
     }
 
     public void init() {
@@ -74,6 +78,10 @@ public class Player extends GameObjects implements KeyboardHandler {
         }
     }
 
+    public int getOriginalHealth() {
+        return originalHealth;
+    }
+
     public void keyReleased(KeyboardEvent keyboardEvent) {}
 
     // KEYBOARD END --------------------------------------------------------------
@@ -81,7 +89,6 @@ public class Player extends GameObjects implements KeyboardHandler {
     public int getScore() {
         return score;
     }
-
     public void addScore(int add) {
         score += add;
     }
@@ -89,8 +96,11 @@ public class Player extends GameObjects implements KeyboardHandler {
     public int getLifes() {
         return lifes;
     }
-
-    public void setLifes(int lifes) {
-        this.lifes = lifes;
+    public void reduceLifes() {
+        if (lifes > 0) {
+            System.out.println("On Player: reducing life");
+            lifes = lifes - 1;
+            gamePlay.minusLife();
+        }
     }
 }

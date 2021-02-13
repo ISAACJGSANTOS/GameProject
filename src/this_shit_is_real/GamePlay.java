@@ -1,5 +1,7 @@
 package this_shit_is_real;
 
+import org.academiadecodigo.simplegraphics.graphics.Color;
+import org.academiadecodigo.simplegraphics.graphics.Text;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 import this_shit_is_real.field.Field;
 import this_shit_is_real.field.FieldDirection;
@@ -23,19 +25,32 @@ public class GamePlay {
     private int counter;
     private Player player;
     private Picture pic;
+    private Text score;
+    private CopyOnWriteArrayList<Heart> lifes;
+    private String gameState;
 
     public GamePlay(Game game) {
         field = game.getField();
         bullets = new CopyOnWriteArrayList<>();
         enemySpeed = 1;
         counter = 0;
+        lifes = new CopyOnWriteArrayList<>();
+        gameState = "OFF";
     }
 
     public void init() {
+
+        // Background
         pic = new Picture();
         pic.load("media/Game_background-01.png");
         pic.translate(10, 10);
         pic.draw();
+
+        // Score
+        score = new Text(362, 783, "0000");
+        score.setColor(Color.WHITE);
+        score.grow(20, 20);
+        score.draw();
 
         factory = new GameObjectsFactory(field, this);
 
@@ -44,8 +59,14 @@ public class GamePlay {
         int col = field.getCols();
         int row = field.getRows();
 
+        // Player
         player = factory.generatePlayer((int) col / 2, (int) row - 8);
         gameObjects.add(player);
+
+        // Lifes
+        for (int i = player.getLifes() - 1; i >= 0; i--) {
+            lifes.add(factory.generateHeart((col / 6) + i * 3, row - 3));
+        }
 
         // Barriers
         for (int i = 0; i < 3; i++) {
@@ -71,23 +92,40 @@ public class GamePlay {
     // START -------------------------------------------------------------------
 
     public void start() {
+        gameState = "ON";
+
         enemySpeed = 1;
         enemyMovement = (int) enemyMovement / enemySpeed;
         enemyMoves = enemyMovement;
 
-        while (true) {
+        while (gameState == "ON") {
             counter++;
+
+
             Wait.wait(SPEED / 2);
+
             if ( gameObjects.size() > 4 ) { moveEnemies(); }
+
             moveBullets();
+
             Wait.wait(SPEED / 2);
+
             if ( counter % 8 == 0){ enemyShoot(); }
+
             checkCollision();
 
+            if (player.getLifes() <= 0) { gameState = "GAME_OVER"; }
+            else if (totalEnemies < 0) { gameState = "WIN"; }
+
         }
+
+        if (gameState == "WIN" ) { System.out.println("WIN!"); }
+        else { System.out.println("GAME OVER!"); }
+
     }
 
-    // START END ---------------------------------------------------------------
+
+    // MOVEMENT ---------------------------------------------------------------
 
     private void moveEnemies() {
 
@@ -144,12 +182,18 @@ public class GamePlay {
         }
     }
 
+
+    // SHOOTING ---------------------------------------------------------------
+
     private void enemyShoot(){
         int i = (int) (Math.random() * (gameObjects.size() - 4) + 4);
 
         Enemies enemy = (Enemies) gameObjects.get(i);
         enemy.shoot();
     }
+
+
+    // COLLISIONS ---------------------------------------------------------------
 
     private void checkCollision(){
 
@@ -175,15 +219,19 @@ public class GamePlay {
             }
         }
 
+        // KILL THEM
+
         for (GameObjects o : gameObjects) {
             if(!o.isDead() && o.getHealth() <= 0) {
                 if(o instanceof Enemies){
                     player.addScore(60);
+                    changeScore();
+                    totalEnemies -= 1;
                     System.out.println(player.getScore());
                     o.kill();
                 } else if(o instanceof Player){
-                    player.setHealth(player.getType().getHealth());
-                    player.setLifes(player.getLifes() - 1);
+                    player.setHealth(player.getOriginalHealth());
+                    player.reduceLifes();
                 } else {
                     o.kill();
                 }
@@ -215,6 +263,23 @@ public class GamePlay {
         b.kill();
         System.out.println(o.getType() + ": " + o.getHealth());
     }
+
+
+    // GRAPHICS ---------------------------------------------------------------
+
+    private void changeScore () {
+
+        if ( player.getScore() < 99 ) { score.setText("00" + player.getScore()); }
+        else if ( player.getScore() < 999 ) { score.setText("0" + player.getScore()); }
+        else { score.setText("" + player.getScore()); }
+    }
+
+    public void minusLife () {
+        lifes.get(0).kill();
+        lifes.remove(0);
+    }
+
+    // OTHER ---------------------------------------------------------------
 
     public void addBullet (Bullets bullet) { bullets.add(bullet); }
     public GameObjectsFactory getFactory() { return factory; }

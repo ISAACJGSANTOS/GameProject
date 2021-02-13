@@ -42,6 +42,9 @@ public class GameObjectsFactory {
     public Bullets generateBullets(int col, int row){
         return new Bullets(GameObjectsType.BULLET, createFieldArray (col, row, GameObjectsType.BULLET));
     }
+    public Bullets generateBulletsEnemy(int col, int row){
+        return new Bullets(GameObjectsType.BULLET, createFieldArray (col, row, GameObjectsType.VIRUS));
+    }
 
     public Barriers generateBarriers(int col, int row){
         return new Barriers(GameObjectsType.BARRIER, createFieldArray (col, row, GameObjectsType.BARRIER));
@@ -49,6 +52,10 @@ public class GameObjectsFactory {
 
     public Button generateButton(int col, int row){
         return new Button(GameObjectsType.MENU, createFieldArray (col, row, GameObjectsType.MENU));
+    }
+
+    public Heart generateHeart(int col, int row){
+        return new Heart(GameObjectsType.HEART, createFieldArray (col, row, GameObjectsType.HEART));
     }
 
     public FieldPosition[] createFieldArray (int col, int row, GameObjectsType type) {
