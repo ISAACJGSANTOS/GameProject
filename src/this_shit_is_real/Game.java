@@ -10,6 +10,8 @@ public class Game {
     private Field field;
     private StartMenu startMenu;
     private GamePlay gamePlay;
+    private GameOverMenu gameOverMenu;
+
 
     public Game(int col, int row){
         field = new Field(col,row);
@@ -23,6 +25,7 @@ public class Game {
         GameSounds.startMenu.setLoop(1000);
 
         startMenu = new StartMenu(factory,this, getField());
+        gameOverMenu = new GameOverMenu(factory,this, getField());
 
         while (startMenu.isMenuOn()) { System.out.println(""); }
         if (startMenu.endGame()) { quit(); }
@@ -39,6 +42,7 @@ public class Game {
         gamePlay.init();
         Wait.wait(500);
         gamePlay.start();
+
 
         GameSounds.gameMusic.close();
 
