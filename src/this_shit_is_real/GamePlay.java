@@ -18,7 +18,7 @@ public class GamePlay {
     private final int E_ROWS = 4;
     private GameObjectsFactory factory;
     private int enemyMovement = 16;
-    private int enemyMovs;
+    private int enemyMoves;
     private final int SPEED = 300;
     private int enemySpeed;
     private CopyOnWriteArrayList<Bullets> bullets;
@@ -62,7 +62,7 @@ public class GamePlay {
         gameObjects.add(player);
 
         // Lifes
-        for (int i = 0; i < player.getLifes(); i++) {
+        for (int i = player.getLifes() - 1; i >= 0; i--) {
             lifes.add(factory.generateHeart((col / 6) + i * 3, row - 3));
         }
 
@@ -92,10 +92,13 @@ public class GamePlay {
     public void start() {
         enemySpeed = 1;
         enemyMovement = (int) enemyMovement / enemySpeed;
-        enemyMovs = enemyMovement;
+        enemyMoves = enemyMovement;
 
         while (true) {
             counter++;
+
+            if (totalEnemies < 0) { System.out.println("WIN!"); }
+            if (player.getLifes() <= 0) { System.out.println("GAME OVER!"); }
 
             Wait.wait(SPEED / 2);
 
@@ -111,25 +114,26 @@ public class GamePlay {
         }
     }
 
-    // START END ---------------------------------------------------------------
+
+    // MOVEMENT ---------------------------------------------------------------
 
     private void moveEnemies() {
 
         // ENEMIES
-        if (enemyMovs < 0) { enemyMovs = enemyMovement; }
+        if (enemyMoves < 0) { enemyMoves = enemyMovement; }
 
         for (int i = 5; i < gameObjects.size(); i++) {
 
             Enemies e = (Enemies) gameObjects.get(i);
 
             if (!e.isDead()) {
-                if (enemyMovs > enemyMovement / 2) { e.move(FieldDirection.RIGHT, enemySpeed); }
-                else if (enemyMovs > 0) { e.move(FieldDirection.LEFT, enemySpeed); }
+                if (enemyMoves > enemyMovement / 2) { e.move(FieldDirection.RIGHT, enemySpeed); }
+                else if (enemyMoves > 0) { e.move(FieldDirection.LEFT, enemySpeed); }
                 else { e.move(FieldDirection.DOWN, enemySpeed); }
             }
         }
 
-        enemyMovs--;
+        enemyMoves--;
 
         // BOSS
         if (gameObjects.get(4) instanceof Boss){ try {
@@ -168,12 +172,18 @@ public class GamePlay {
         }
     }
 
+
+    // SHOOTING ---------------------------------------------------------------
+
     private void enemyShoot(){
         int i = (int) (Math.random() * (gameObjects.size() - 4) + 4);
 
         Enemies enemy = (Enemies) gameObjects.get(i);
         enemy.shoot();
     }
+
+
+    // COLLISIONS ---------------------------------------------------------------
 
     private void checkCollision(){
 
@@ -199,16 +209,19 @@ public class GamePlay {
             }
         }
 
+        // KILL THEM
+
         for (GameObjects o : gameObjects) {
             if(!o.isDead() && o.getHealth() <= 0) {
                 if(o instanceof Enemies){
                     player.addScore(60);
                     changeScore();
+                    totalEnemies -= 1;
                     System.out.println(player.getScore());
                     o.kill();
                 } else if(o instanceof Player){
-                    player.setHealth(player.getType().getHealth());
-                    player.setLifes(player.getLifes() - 1);
+                    player.setHealth(player.getOriginalHealth());
+                    player.reduceLifes();
                 } else {
                     o.kill();
                 }
@@ -235,6 +248,16 @@ public class GamePlay {
         return false;
     }
 
+    private void hit (Bullets b, GameObjects o) {
+        b.hit(o.getDamage());
+        o.hit(b.getDamage());
+        b.kill();
+        System.out.println(o.getType() + ": " + o.getHealth());
+    }
+
+
+    // GRAPHICS ---------------------------------------------------------------
+
     private void changeScore () {
 
         if ( player.getScore() < 99 ) { score.setText("00" + player.getScore()); }
@@ -242,12 +265,12 @@ public class GamePlay {
         else { score.setText("" + player.getScore()); }
     }
 
-    private void hit (Bullets b, GameObjects o) {
-        b.hit(o.getDamage());
-        o.hit(b.getDamage());
-        b.kill();
-        System.out.println(o.getType() + ": " + o.getHealth());
+    public void minusLife () {
+        lifes.get(0).kill();
+        lifes.remove(0);
     }
+
+    // OTHER ---------------------------------------------------------------
 
     public void addBullet (Bullets bullet) { bullets.add(bullet); }
     public GameObjectsFactory getFactory() { return factory; }
