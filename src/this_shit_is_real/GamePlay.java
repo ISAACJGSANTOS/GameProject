@@ -7,6 +7,7 @@ import this_shit_is_real.field.Field;
 import this_shit_is_real.field.FieldDirection;
 import this_shit_is_real.field.FieldPosition;
 import this_shit_is_real.gameobjects.*;
+import this_shit_is_real.sounds.GameSounds;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 

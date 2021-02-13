@@ -80,11 +80,11 @@ public class StartMenu implements KeyboardHandler {
         switch (keyboardEvent.getKey()) {
 
             case KeyboardEvent.KEY_DOWN:
-                if (selected < buttons.length - 1) { selected ++; changeImage(); }
+                if (selected < buttons.length - 1) { selected ++; changeImage(); GameSounds.button.play(true);}
                 break;
 
             case KeyboardEvent.KEY_UP:
-                if (selected > 0) { selected --; changeImage(); }
+                if (selected > 0) { selected --; changeImage(); GameSounds.button.play(true); }
                 break;
             case KeyboardEvent.KEY_SPACE:
                 switch (selected) {

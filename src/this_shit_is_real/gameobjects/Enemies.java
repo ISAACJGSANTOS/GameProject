@@ -3,6 +3,7 @@ package this_shit_is_real.gameobjects;
 import this_shit_is_real.GamePlay;
 import this_shit_is_real.field.FieldDirection;
 import this_shit_is_real.field.FieldPosition;
+import this_shit_is_real.sounds.GameSounds;
 
 public class Enemies extends GameObjects {
 
@@ -23,6 +24,7 @@ public class Enemies extends GameObjects {
         bullet.setCurrentDirection(FieldDirection.DOWN);
         bullet.setDamage(getDamage());
         gamePlay.addBullet(bullet);
+        GameSounds.coronaVirus.play(true);
     }
 
 }
