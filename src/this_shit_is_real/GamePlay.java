@@ -244,7 +244,6 @@ public class GamePlay {
                 if (pos1.equals(pos2)) { return true; }
             }
         }
-
         return false;
     }
 
@@ -274,4 +273,7 @@ public class GamePlay {
 
     public void addBullet (Bullets bullet) { bullets.add(bullet); }
     public GameObjectsFactory getFactory() { return factory; }
+
+
+
 }
