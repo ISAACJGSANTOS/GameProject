@@ -11,9 +11,7 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class FieldPosition extends AbstractPosition {
 
-    private Rectangle rectangle;
     private Field field;
-    private Color color;
     private Picture image;
     private String[] paths;
 
@@ -26,30 +24,17 @@ public class FieldPosition extends AbstractPosition {
     public void init (String[] paths) {
         this.paths = paths;
         image = new Picture();
+        image.load(paths[0]);
         image.translate(field.columnToXinPixels(getCol()), field.rowToYinPixels(getRow()));
-
-        /*
-        this.color = color;
-        rectangle = new Rectangle(field.columnToXinPixels(getCol()), field.rowToYinPixels(getRow()), field.getCellSize(),field.getCellSize());
-        show(); */
-    }
-
-    public void setPath(String[] paths) {
-        this.paths = paths;
+        image.draw();
     }
 
     @Override
-    public void show(int img) {  // Soon to be adjusted to image
-        // rectangle.setColor(color);
-        // rectangle.fill();
+    public void show(int img) {
         image.load(paths[img]);
         image.draw();
     }
-    public void hide() { /* rectangle.delete(); */ image.delete(); }   // Soon to be adjusted to image
-
-    public void setColor(Color color) {
-        this.color = color;
-    }
+    public void hide() { if (isOriginal()) { image.delete(); } }
 
     @Override
     public void moveInDirection(FieldDirection direction, int distance) {  // The parameters receive the abstract distance (in rows or columns, NOT in pixels)
@@ -66,6 +51,6 @@ public class FieldPosition extends AbstractPosition {
         int yFinal = field.rowToYinPixels(getRow());
 
         // rectangle.translate(xFinal - xStart, yFinal - yStart);  // This method of Rectangle receives ONLY the movement in pixels (= FP - CP)
-        image.translate(xFinal - xStart, yFinal - yStart);  // This method of Rectangle receives ONLY the movement in pixels (= FP - CP)
+        if (isOriginal()) { image.translate(xFinal - xStart, yFinal - yStart); }  // This method of Rectangle receives ONLY the movement in pixels (= FP - CP)
     }
 }

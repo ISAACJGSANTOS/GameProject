@@ -36,7 +36,7 @@ public class GameObjectsFactory {
     }
 
     public Enemies generateBoss(int col, int row){
-        return new Enemies(GameObjectsType.CREATOR, createFieldArray (col, row, GameObjectsType.CREATOR), gamePlay);
+        return new Boss(GameObjectsType.CREATOR, createFieldArray (col, row, GameObjectsType.CREATOR), gamePlay);
     }
 
     public Bullets generateBullets(int col, int row){
@@ -58,17 +58,13 @@ public class GameObjectsFactory {
 
         for (int i = 0; i < size; i++) {
             pos[i] = field.makeFieldPosition(col, row);
-            pos[i].init(type.getPaths());  // Ask FieldPosition to create the rectangle or image
 
-            // Let's set the final position for all the positions
+            // Let's set the final position for all the positions && add an image only to the first position
             switch (i) {
-                case 3:
-                    pos[i].moveInDirection(FieldDirection.RIGHT, 1);
-                case 2:
-                    pos[i].moveInDirection(FieldDirection.DOWN, 1);
-                    break;
-                case 1:
-                    pos[i].moveInDirection(FieldDirection.RIGHT, 1);
+                case 0: pos[i].init(type.getPaths()); pos[i].setOriginal(true); break;
+                case 3: pos[i].moveInDirection(FieldDirection.RIGHT, 1);
+                case 2: pos[i].moveInDirection(FieldDirection.DOWN, 1); break;
+                case 1: pos[i].moveInDirection(FieldDirection.RIGHT, 1);
             }
         }
         return pos;
