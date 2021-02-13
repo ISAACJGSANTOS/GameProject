@@ -29,6 +29,9 @@ public class GamePlay {
     private Text score;
     private CopyOnWriteArrayList<Heart> lifes;
     private String gameState;
+    private WinMenu winMenu;
+    private GameOverMenu gameOverMenu;
+
 
     public GamePlay(Game game) {
         field = game.getField();
@@ -37,6 +40,8 @@ public class GamePlay {
         counter = 0;
         lifes = new CopyOnWriteArrayList<>();
         gameState = "OFF";
+        winMenu = new WinMenu(factory, game, field);
+        gameOverMenu = new GameOverMenu(factory, game, field);
     }
 
     public void init() {
@@ -120,9 +125,12 @@ public class GamePlay {
 
         }
 
-        if (gameState == "WIN" ) { System.out.println("WIN!"); }
+        if (gameState == "WIN" ) {
+            System.out.println("WIN!");
+            winMenu.createMenu(factory);
+        }
         else { System.out.println("GAME OVER!"); }
-
+        gameOverMenu.createMenu(factory);
     }
 
 
@@ -285,7 +293,5 @@ public class GamePlay {
 
     public void addBullet (Bullets bullet) { bullets.add(bullet); }
     public GameObjectsFactory getFactory() { return factory; }
-
-
 
 }
