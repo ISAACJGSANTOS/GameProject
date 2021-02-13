@@ -27,6 +27,7 @@ public class GamePlay {
     private Picture pic;
     private Text score;
     private CopyOnWriteArrayList<Heart> lifes;
+    private String gameState;
 
     public GamePlay(Game game) {
         field = game.getField();
@@ -34,6 +35,7 @@ public class GamePlay {
         enemySpeed = 1;
         counter = 0;
         lifes = new CopyOnWriteArrayList<>();
+        gameState = "OFF";
     }
 
     public void init() {
@@ -90,15 +92,15 @@ public class GamePlay {
     // START -------------------------------------------------------------------
 
     public void start() {
+        gameState = "ON";
+
         enemySpeed = 1;
         enemyMovement = (int) enemyMovement / enemySpeed;
         enemyMoves = enemyMovement;
 
-        while (true) {
+        while (gameState == "ON") {
             counter++;
 
-            if (totalEnemies < 0) { System.out.println("WIN!"); }
-            if (player.getLifes() <= 0) { System.out.println("GAME OVER!"); }
 
             Wait.wait(SPEED / 2);
 
@@ -111,7 +113,15 @@ public class GamePlay {
             if ( counter % 8 == 0){ enemyShoot(); }
 
             checkCollision();
+
+            if (player.getLifes() <= 0) { gameState = "GAME_OVER"; }
+            else if (totalEnemies < 0) { gameState = "WIN"; }
+
         }
+
+        if (gameState == "WIN" ) { System.out.println("WIN!"); }
+        else { System.out.println("GAME OVER!"); }
+
     }
 
 
