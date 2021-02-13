@@ -13,6 +13,7 @@ public class Game {
 
     public Game(int col, int row){
         field = new Field(col,row);
+        System.out.println("Field :" + field.getHeight());
     }
 
     public void init() {

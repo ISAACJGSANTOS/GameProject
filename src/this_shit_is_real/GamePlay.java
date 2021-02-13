@@ -215,7 +215,7 @@ public class GamePlay {
                 if(b.getPos().getRow() == 0){ b.kill(); }
                 for(int i = 1; i < gameObjects.size(); i++){
                     GameObjects o = gameObjects.get(i);
-                    if (!o.isDead() && comparePos(b, o)) { hit(b, o); }
+                    if (!o.isDead() && comparePos(b, o)) { hit(b, o); GameSounds.hitEnemy.play(true);}
                 }
             }
         }
@@ -232,6 +232,7 @@ public class GamePlay {
                     o.kill();
                 } else if(o instanceof Player){
                     player.setHealth(player.getOriginalHealth());
+                    GameSounds.hitPlayer.play(true);
                     player.reduceLifes();
                 } else {
                     o.kill();

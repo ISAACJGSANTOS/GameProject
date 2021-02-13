@@ -45,7 +45,7 @@ public class StartMenu implements KeyboardHandler {
 
     public void createMenu(GameObjectsFactory factory){
         pic = new Picture();
-        pic.load("media/menu_background-01.png");
+        pic.load("media/Menu_background_2.png");
         pic.translate(10, 10);
         pic.draw();
 
