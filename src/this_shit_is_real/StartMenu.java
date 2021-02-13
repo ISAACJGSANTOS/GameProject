@@ -1,6 +1,7 @@
 package this_shit_is_real;
 
 import org.academiadecodigo.simplegraphics.graphics.Color;
+import org.academiadecodigo.simplegraphics.graphics.Text;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
@@ -9,6 +10,7 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 import this_shit_is_real.field.Field;
 import this_shit_is_real.gameobjects.Button;
 import this_shit_is_real.gameobjects.GameObjectsFactory;
+import this_shit_is_real.gameobjects.Wait;
 import this_shit_is_real.sounds.GameSounds;
 
 public class StartMenu implements KeyboardHandler {
@@ -51,6 +53,7 @@ public class StartMenu implements KeyboardHandler {
         changeImage();
 
         activateKeyboard();
+
     }
 
     public void activateKeyboard() {

@@ -1,5 +1,7 @@
 package this_shit_is_real;
 
+import org.academiadecodigo.simplegraphics.graphics.Color;
+import org.academiadecodigo.simplegraphics.graphics.Text;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 import this_shit_is_real.field.Field;
 import this_shit_is_real.field.FieldDirection;
@@ -23,19 +25,30 @@ public class GamePlay {
     private int counter;
     private Player player;
     private Picture pic;
+    private Text score;
+    private CopyOnWriteArrayList<Heart> lifes;
 
     public GamePlay(Game game) {
         field = game.getField();
         bullets = new CopyOnWriteArrayList<>();
         enemySpeed = 1;
         counter = 0;
+        lifes = new CopyOnWriteArrayList<>();
     }
 
     public void init() {
+
+        // Background
         pic = new Picture();
         pic.load("media/Game_background-01.png");
         pic.translate(10, 10);
         pic.draw();
+
+        // Score
+        score = new Text(362, 783, "0000");
+        score.setColor(Color.WHITE);
+        score.grow(20, 20);
+        score.draw();
 
         factory = new GameObjectsFactory(field, this);
 
@@ -44,8 +57,14 @@ public class GamePlay {
         int col = field.getCols();
         int row = field.getRows();
 
+        // Player
         player = factory.generatePlayer((int) col / 2, (int) row - 8);
         gameObjects.add(player);
+
+        // Lifes
+        for (int i = 0; i < player.getLifes(); i++) {
+            lifes.add(factory.generateHeart((col / 6) + i * 3, row - 3));
+        }
 
         // Barriers
         for (int i = 0; i < 3; i++) {
@@ -77,13 +96,18 @@ public class GamePlay {
 
         while (true) {
             counter++;
-            Wait.wait(SPEED / 2);
-            if ( gameObjects.size() > 4 ) { moveEnemies(); }
-            moveBullets();
-            Wait.wait(SPEED / 2);
-            if ( counter % 8 == 0){ enemyShoot(); }
-            checkCollision();
 
+            Wait.wait(SPEED / 2);
+
+            if ( gameObjects.size() > 4 ) { moveEnemies(); }
+
+            moveBullets();
+
+            Wait.wait(SPEED / 2);
+
+            if ( counter % 8 == 0){ enemyShoot(); }
+
+            checkCollision();
         }
     }
 
@@ -179,6 +203,7 @@ public class GamePlay {
             if(!o.isDead() && o.getHealth() <= 0) {
                 if(o instanceof Enemies){
                     player.addScore(60);
+                    changeScore();
                     System.out.println(player.getScore());
                     o.kill();
                 } else if(o instanceof Player){
@@ -208,6 +233,13 @@ public class GamePlay {
         }
 
         return false;
+    }
+
+    private void changeScore () {
+
+        if ( player.getScore() < 99 ) { score.setText("00" + player.getScore()); }
+        else if ( player.getScore() < 999 ) { score.setText("0" + player.getScore()); }
+        else { score.setText("" + player.getScore()); }
     }
 
     private void hit (Bullets b, GameObjects o) {

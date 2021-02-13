@@ -11,7 +11,8 @@ public enum GameObjectsType {
     PLAYER("Player", 200, Color.GREEN, 1, 20, new String[]{"media/playerM_normal.png", "media/playerM_throw.png"}),
     BARRIER("Protection", 200, Color.GRAY, 2, 1, new String[]{"media/barriers_trump-01.png"}),
     BULLET("Bullet", 1, Color.BLUE, 1, 1, new String[]{"media/syringe.png"}),
-    MENU("Button", 100, Color.WHITE, 1, 1, new String[]{"media/M_button_start-01.png", "media/M_button_start_selected-01.png", "media/M_button_quit-01.png", "media/M_button_quit_selected-01.png", "media/M_button_mute-01.png", "media/M_button_mute_selected-01.png"});
+    MENU("Button", 100, Color.WHITE, 1, 1, new String[]{"media/M_button_start-01.png", "media/M_button_start_selected-01.png", "media/M_button_quit-01.png", "media/M_button_quit_selected-01.png", "media/M_button_mute-01.png", "media/M_button_mute_selected-01.png"}),
+    HEART("Heart", 100, Color.WHITE, 1, 1, new String[]{"media/Lifes-01.png"});
 
     private String name;
     private int health;

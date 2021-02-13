@@ -8,6 +8,8 @@ import this_shit_is_real.GamePlay;
 import this_shit_is_real.field.FieldDirection;
 import this_shit_is_real.field.FieldPosition;
 
+import java.util.concurrent.CopyOnWriteArrayList;
+
 public class Player extends GameObjects implements KeyboardHandler {
 
     private int score;
@@ -91,6 +93,6 @@ public class Player extends GameObjects implements KeyboardHandler {
     }
 
     public void setLifes(int lifes) {
-        this.lifes = lifes;
+       this.lifes = lifes;
     }
 }
