@@ -16,7 +16,7 @@ public class GamePlay {
     private final int E_ROWS = 4;
     private GameObjectsFactory factory;
     private int enemyMovement = 16;
-    private int enemyMovs;
+    private int enemyMoves;
     private final int SPEED = 300;
     private int enemySpeed;
     private CopyOnWriteArrayList<Bullets> bullets;
@@ -73,7 +73,7 @@ public class GamePlay {
     public void start() {
         enemySpeed = 1;
         enemyMovement = (int) enemyMovement / enemySpeed;
-        enemyMovs = enemyMovement;
+        enemyMoves = enemyMovement;
 
         while (true) {
             counter++;
@@ -92,20 +92,20 @@ public class GamePlay {
     private void moveEnemies() {
 
         // ENEMIES
-        if (enemyMovs < 0) { enemyMovs = enemyMovement; }
+        if (enemyMoves < 0) { enemyMoves = enemyMovement; }
 
         for (int i = 5; i < gameObjects.size(); i++) {
 
             Enemies e = (Enemies) gameObjects.get(i);
 
             if (!e.isDead()) {
-                if (enemyMovs > enemyMovement / 2) { e.move(FieldDirection.RIGHT, enemySpeed); }
-                else if (enemyMovs > 0) { e.move(FieldDirection.LEFT, enemySpeed); }
+                if (enemyMoves > enemyMovement / 2) { e.move(FieldDirection.RIGHT, enemySpeed); }
+                else if (enemyMoves > 0) { e.move(FieldDirection.LEFT, enemySpeed); }
                 else { e.move(FieldDirection.DOWN, enemySpeed); }
             }
         }
 
-        enemyMovs--;
+        enemyMoves--;
 
         // BOSS
         if (gameObjects.get(4) instanceof Boss){ try {
@@ -206,7 +206,6 @@ public class GamePlay {
                 if (pos1.equals(pos2)) { return true; }
             }
         }
-
         return false;
     }
 
@@ -219,4 +218,7 @@ public class GamePlay {
 
     public void addBullet (Bullets bullet) { bullets.add(bullet); }
     public GameObjectsFactory getFactory() { return factory; }
+
+
+
 }

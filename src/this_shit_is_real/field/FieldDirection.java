@@ -5,5 +5,4 @@ public enum FieldDirection {
     DOWN,
     LEFT,
     RIGHT
-
 }
