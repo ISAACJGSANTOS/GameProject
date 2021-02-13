@@ -10,11 +10,13 @@ public abstract class AbstractPosition {
     private int col;
     private int row;
     private Field field;
+    private boolean original;
 
     public AbstractPosition(int col, int row, Field field) {
         this.col = col;
         this.row = row;
         this.field = field;
+        original = false;
     }
 
     // START OF MOVEMENT LOGIC ----------------------------------------------------------------------
@@ -59,7 +61,7 @@ public abstract class AbstractPosition {
     public void setPos(int col, int row) { // Changes the abstract position of the object (not it's representation)
         this.col = col;
         this.row = row;
-        show(0);
+        if (original) { show(0); }
     }
     // END OF MOVEMENT LOGIC ------------------------------------------------------------------------
 
@@ -70,13 +72,14 @@ public abstract class AbstractPosition {
     public void show(int img){} // Although it is only filled on subclass, we need to create it here in order be able to call it on setPos().
 
     // GETTERS
-    public Field getField() {
-        return field;
+    public Field getField() { return field; }
+    public int getCol() { return col; }
+    public int getRow() { return row; }
+    public boolean isOriginal() {
+        return original;
     }
-    public int getCol() {
-        return col;
-    }
-    public int getRow() {
-        return row;
-    }
+
+    // SETTERS
+    public void setOriginal(boolean original) { this.original = original; }
+
 }

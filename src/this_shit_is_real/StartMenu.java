@@ -48,8 +48,6 @@ public class StartMenu implements KeyboardHandler {
         pic.draw();
 
         for (int i = 0; i < buttons.length; i++) { buttons[i] = factory.generateButton(9, 23 + i * 5); }
-        buttons[selected].getPos().setColor(Color.RED);
-        // buttons[selected].getPos().show(1);
         changeImage();
 
         activateKeyboard();
