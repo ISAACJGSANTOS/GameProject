@@ -7,6 +7,7 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import this_shit_is_real.GamePlay;
 import this_shit_is_real.field.FieldDirection;
 import this_shit_is_real.field.FieldPosition;
+import this_shit_is_real.sounds.GameSounds;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -44,6 +45,8 @@ public class Player extends GameObjects implements KeyboardHandler {
         shoot.setKey(KeyboardEvent.KEY_SPACE);
         shoot.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
 
+
+
         keyboard.addEventListener(left);
         keyboard.addEventListener(right);
         keyboard.addEventListener(shoot);
@@ -56,6 +59,7 @@ public class Player extends GameObjects implements KeyboardHandler {
         bullet.setCurrentDirection(FieldDirection.UP);
         bullet.setDamage(getDamage());
         gamePlay.addBullet(bullet);
+        GameSounds.throwSeringe.play(true);
     }
 
     // KEYBOARD STAR -------------------------------------------------------------

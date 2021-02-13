@@ -40,6 +40,8 @@ public class Game {
         Wait.wait(500);
         gamePlay.start();
 
+        GameSounds.gameMusic.close();
+
     }
 
     public void quit() {
