@@ -45,11 +45,11 @@ public class StartMenu implements KeyboardHandler {
 
     public void createMenu(GameObjectsFactory factory){
         pic = new Picture();
-        pic.load("media/Menu_background_2.png");
+        pic.load("media/Menu_background_final-01.png");
         pic.translate(10, 10);
         pic.draw();
 
-        for (int i = 0; i < buttons.length; i++) { buttons[i] = factory.generateButton(9, 23 + i * 5); }
+        for (int i = 0; i < buttons.length; i++) { buttons[i] = factory.generateButton(9, 17 + i * 5); }
         changeImage();
 
         activateKeyboard();
@@ -115,9 +115,9 @@ public class StartMenu implements KeyboardHandler {
 
     public void deleteMenu() {
         pic.delete();
-        for (Button b: buttons) {
-            b.getPos().hide();
-            b = null;
+        for (int i = 0; i < buttons.length; i++) {
+            buttons[i].getPos().hide();
+            buttons[i] = null;
         }
         keyboard.removeEventListener(upButton);
         keyboard.removeEventListener(downButton);

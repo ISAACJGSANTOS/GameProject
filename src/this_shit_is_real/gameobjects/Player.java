@@ -17,9 +17,12 @@ public class Player extends GameObjects implements KeyboardHandler {
     private Keyboard keyboard;
     private GameObjectsFactory factory;
     private GamePlay gamePlay;
-    private Bullets bullet;
     private int lifes;
     private int originalHealth;
+    private KeyboardEvent left;
+    private KeyboardEvent right;
+    private KeyboardEvent shoot;
+
 
     public Player(GameObjectsType type, FieldPosition[] pos, GamePlay game){
         super(type, pos);
@@ -33,19 +36,17 @@ public class Player extends GameObjects implements KeyboardHandler {
     }
 
     public void init() {
-        KeyboardEvent left = new KeyboardEvent();
+        left = new KeyboardEvent();
         left.setKey(KeyboardEvent.KEY_LEFT);
         left.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
 
-        KeyboardEvent right = new KeyboardEvent();
+        right = new KeyboardEvent();
         right.setKey(KeyboardEvent.KEY_RIGHT);
         right.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
 
-        KeyboardEvent shoot = new KeyboardEvent();
+        shoot = new KeyboardEvent();
         shoot.setKey(KeyboardEvent.KEY_SPACE);
         shoot.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-
-
 
         keyboard.addEventListener(left);
         keyboard.addEventListener(right);
@@ -102,9 +103,15 @@ public class Player extends GameObjects implements KeyboardHandler {
     }
     public void reduceLifes() {
         if (lifes > 0) {
-            System.out.println("On Player: reducing life");
             lifes = lifes - 1;
             gamePlay.minusLife();
         }
+    }
+
+    public void killListeners () {
+        keyboard.removeEventListener(left);
+        keyboard.removeEventListener(right);
+        keyboard.removeEventListener(shoot);
+
     }
 }

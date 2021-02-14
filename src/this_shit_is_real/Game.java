@@ -12,10 +12,8 @@ public class Game {
     private GamePlay gamePlay;
 
 
-    public Game(int col, int row){
+    public Game(int col, int row) {
         field = new Field(col,row);
-        System.out.println("Field :" + field.getWidth());
-        System.out.println(field.getHeight());
     }
 
     public void init() {
@@ -43,8 +41,19 @@ public class Game {
         Wait.wait(500);
         gamePlay.start();
 
-
         GameSounds.gameMusic.close();
+
+        if (gamePlay.getGameState() == "WIN" ) {
+            System.out.println("WIN!");
+            gamePlay.delete();
+            new WinMenu(this, field);
+        }
+        else {
+            System.out.println("LOST!");
+            gamePlay.delete();
+            new GameOverMenu(this, field);
+        }
+
 
     }
 

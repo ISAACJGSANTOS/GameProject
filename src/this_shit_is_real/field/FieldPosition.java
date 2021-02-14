@@ -51,6 +51,8 @@ public class FieldPosition extends AbstractPosition {
         int yFinal = field.rowToYinPixels(getRow());
 
         // rectangle.translate(xFinal - xStart, yFinal - yStart);  // This method of Rectangle receives ONLY the movement in pixels (= FP - CP)
-        if (isOriginal()) { image.translate(xFinal - xStart, yFinal - yStart); }  // This method of Rectangle receives ONLY the movement in pixels (= FP - CP)
+        try {
+            if (isOriginal()) { image.translate(xFinal - xStart, yFinal - yStart); }  // This method of Rectangle receives ONLY the movement in pixels (= FP - CP)
+        } catch (Exception e) { System.out.println("bullet error... ups!"); }
     }
 }

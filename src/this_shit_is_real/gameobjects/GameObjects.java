@@ -25,14 +25,14 @@ public class GameObjects {
 
     // Let's move all the object positions
     public void move (FieldDirection direction, int distance) {
-        for (FieldPosition pos : myPos) {
-            pos.moveInDirection(direction, distance);
+        for (int i = 0; i < myPos.length; i++) {
+            myPos[i].moveInDirection(direction, distance);
         }
     }
 
     public void kill() {
         dead = true;
-        for (FieldPosition pos : myPos) { pos.hide(); }
+        for (int i = 0; i < myPos.length; i++) { myPos[i].hide(); }
     }
 
     public void hit(int damage){

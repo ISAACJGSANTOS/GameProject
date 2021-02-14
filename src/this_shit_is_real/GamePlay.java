@@ -29,9 +29,6 @@ public class GamePlay {
     private Text score;
     private CopyOnWriteArrayList<Heart> lifes;
     private String gameState;
-    private WinMenu winMenu;
-    private GameOverMenu gameOverMenu;
-
 
     public GamePlay(Game game) {
         field = game.getField();
@@ -40,20 +37,19 @@ public class GamePlay {
         counter = 0;
         lifes = new CopyOnWriteArrayList<>();
         gameState = "OFF";
-        winMenu = new WinMenu(factory, game, field);
-        gameOverMenu = new GameOverMenu(factory, game, field);
+
     }
 
     public void init() {
 
         // Background
         pic = new Picture();
-        pic.load("media/Menu_background_3.png");
+        pic.load("media/Game_final-01.png");
         pic.translate(10, 10);
         pic.draw();
 
         // Score
-        score = new Text(362, 783, "0000");
+        score = new Text(362, 620, "0000");
         score.setColor(Color.WHITE);
         score.grow(20, 20);
         score.draw();
@@ -66,7 +62,7 @@ public class GamePlay {
         int row = field.getRows();
 
         // Player
-        player = factory.generatePlayer((int) col / 2, (int) row - 8);
+        player = factory.generatePlayer((int) col / 2, (int) row - 6);
         gameObjects.add(player);
 
         // Lifes
@@ -76,7 +72,7 @@ public class GamePlay {
 
         // Barriers
         for (int i = 0; i < 3; i++) {
-            gameObjects.add(factory.generateBarriers(i * (col / 4) + (col / 4), row - 12));
+            gameObjects.add(factory.generateBarriers(i * (col / 4) + (col / 4), row - 9));
         }
 
         Enemies boss = factory.generateBoss((int) col / 2, (int) row - ((int) row - 6));
@@ -87,7 +83,7 @@ public class GamePlay {
         int x = (totalEnemies / E_ROWS) * 2;
 
         for (int i = 1; i < x; i++) {
-            for (int j = 10; j <= 12 + E_ROWS; j++) {
+            for (int j = 10; j <= 10 + E_ROWS * 2; j++) {
                 if (i % 2 != 0 && j % 2 != 0) {
                     gameObjects.add(factory.generateEnemy(i, j));
                 }
@@ -116,23 +112,16 @@ public class GamePlay {
 
             Wait.wait(SPEED / 2);
 
-            if ( counter % 8 == 0){ enemyShoot(); }
+            if ( counter % 8 == 0 && gameObjects.size() > 4){ enemyShoot(); }
 
             checkCollision();
 
             if (player.getLifes() <= 0) { gameState = "GAME_OVER"; }
-            else if (totalEnemies < 0) { gameState = "WIN"; }
+            if (totalEnemies < 0) { gameState = "WIN"; }
+
 
         }
-
-        if (gameState == "WIN" ) {
-            System.out.println("WIN!");
-            winMenu.createMenu(factory);
-        }
-        else { System.out.println("GAME OVER!"); }
-        gameOverMenu.createMenu(factory);
     }
-
 
     // MOVEMENT ---------------------------------------------------------------
 
@@ -141,14 +130,17 @@ public class GamePlay {
         // ENEMIES
         if (enemyMoves < 0) { enemyMoves = enemyMovement; }
 
-        for (int i = 5; i < gameObjects.size(); i++) {
+        for (int i = 0; i < gameObjects.size(); i++) {
+            GameObjects o = gameObjects.get(i);
+            if ( o instanceof Enemies & !(o instanceof Boss) ) {
 
-            Enemies e = (Enemies) gameObjects.get(i);
+                Enemies e = (Enemies) o;
 
-            if (!e.isDead()) {
-                if (enemyMoves > enemyMovement / 2) { e.move(FieldDirection.RIGHT, enemySpeed); }
-                else if (enemyMoves > 0) { e.move(FieldDirection.LEFT, enemySpeed); }
-                else { e.move(FieldDirection.DOWN, enemySpeed); }
+                if (!e.isDead()) {
+                    if (enemyMoves > enemyMovement / 2) { e.move(FieldDirection.RIGHT, enemySpeed); }
+                    else if (enemyMoves > 0) { e.move(FieldDirection.LEFT, enemySpeed); }
+                    else { e.move(FieldDirection.DOWN, enemySpeed); }
+                }
             }
         }
 
@@ -186,8 +178,8 @@ public class GamePlay {
     }
 
     private void moveBullets() {
-        for(Bullets bullet : bullets) {
-            bullet.move(bullet.getCurrentDirection(), 1);
+        for (int i = 0; i < bullets.size(); i++) {
+            bullets.get(i).move(bullets.get(i).getCurrentDirection(), 1);
         }
     }
 
@@ -195,6 +187,7 @@ public class GamePlay {
     // SHOOTING ---------------------------------------------------------------
 
     private void enemyShoot(){
+
         int i = (int) (Math.random() * (gameObjects.size() - 4) + 4);
 
         Enemies enemy = (Enemies) gameObjects.get(i);
@@ -206,13 +199,17 @@ public class GamePlay {
 
     private void checkCollision(){
 
-        for (GameObjects o1 : gameObjects) {
-            for (GameObjects o2 : gameObjects) {
+        for (int i = 0; i < gameObjects.size(); i++) {
+            GameObjects o1 = gameObjects.get(i);
+            for (int j = 0; j < gameObjects.size(); j++) {
+                GameObjects o2 = gameObjects.get(j);
+                if (i == 0 && o2 instanceof Enemies && o1.getPos().getRow() <= o2.getPos().getRow() ) { o1.hit(200); }
                 if (!o1.isDead() && !o2.isDead() && comparePos(o1, o2)) { o1.hit(o2.getDamage()); }
             }
         }
 
-        for(Bullets b : bullets){
+        for (int j = 0; j < bullets.size(); j++) {
+            Bullets b = bullets.get(j);
             if(b.getCurrentDirection() == FieldDirection.DOWN){
                 if(b.getPos().getRow() == field.getRows() - 1){ b.kill(); }
                 for(int i = 0; i < 4; i++){
@@ -229,15 +226,16 @@ public class GamePlay {
         }
 
         // KILL THEM
-
-        for (GameObjects o : gameObjects) {
+        for (int i = 0; i < gameObjects.size(); i++) {
+            GameObjects o = gameObjects.get(i);
             if(!o.isDead() && o.getHealth() <= 0) {
                 if(o instanceof Enemies){
                     player.addScore(60);
                     changeScore();
                     totalEnemies -= 1;
-                    System.out.println(player.getScore());
+                    // System.out.println(player.getScore());
                     o.kill();
+                    // System.out.println("ENEMIES LEFT: " + totalEnemies);
                 } else if(o instanceof Player){
                     player.setHealth(player.getOriginalHealth());
                     GameSounds.hitPlayer.play(true);
@@ -247,6 +245,9 @@ public class GamePlay {
                 }
             }
         }
+
+
+
         try {
             gameObjects.removeIf(enemy -> (enemy instanceof Enemies & enemy.isDead()));
             bullets.removeIf(bullet -> (bullet.isDead()));
@@ -259,9 +260,9 @@ public class GamePlay {
         FieldPosition[] allPos1 = o1.getAllPos();
         FieldPosition[] allPos2 = o2.getAllPos();
 
-        for (FieldPosition pos1 : allPos1) {
-            for (FieldPosition pos2 : allPos2) {
-                if (pos1.equals(pos2)) { return true; }
+        for (int i = 0; i < allPos1.length; i++) {
+            for (int j = 0; j < allPos2.length; j++) {
+                if (allPos1[i].equals(allPos2[j])) { return true; }
             }
         }
         return false;
@@ -271,7 +272,7 @@ public class GamePlay {
         b.hit(o.getDamage());
         o.hit(b.getDamage());
         b.kill();
-        System.out.println(o.getType() + ": " + o.getHealth());
+        // System.out.println(o.getType() + ": " + o.getHealth());
     }
 
 
@@ -293,5 +294,20 @@ public class GamePlay {
 
     public void addBullet (Bullets bullet) { bullets.add(bullet); }
     public GameObjectsFactory getFactory() { return factory; }
+    public String getGameState() {
+        return gameState;
+    }
 
+    public void delete() {
+        pic.delete();
+        score.delete();
+
+        gameObjects.clear();
+        lifes.clear();
+        bullets.clear();
+
+        player.killListeners();
+        player.getPos().hide();
+        player = null;
+    }
 }

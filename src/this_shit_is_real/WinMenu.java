@@ -22,7 +22,7 @@ public class WinMenu implements KeyboardHandler {
     private boolean endGame;
     private Picture winMenuW;
 
-    public WinMenu(GameObjectsFactory factory, Game game, Field field) {
+    public WinMenu(Game game, Field field) {
         this.game = game;
         this.field = field;
         this.selected = 0;
@@ -30,16 +30,16 @@ public class WinMenu implements KeyboardHandler {
 
         winMenu = true;
         endGame = false;
-        createMenu(factory);
+        createMenu();
     }
 
     public Picture getPic() {
         return winMenuW;
     }
 
-    public void createMenu(GameObjectsFactory factory){
+    public void createMenu(){
         winMenuW = new Picture();
-        winMenuW.load("media/Won-01.png");
+        winMenuW.load("media/Won_final-01.png");
         winMenuW.translate(10, 10);
         winMenuW.draw();
 
@@ -57,8 +57,7 @@ public class WinMenu implements KeyboardHandler {
 
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
-        endGame = true;
-        winMenu = false;
+       System.exit(0);
     }
 
     @Override

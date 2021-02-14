@@ -43,7 +43,7 @@ public class GameObjectsFactory {
         return new Bullets(GameObjectsType.BULLET, createFieldArray (col, row, GameObjectsType.BULLET));
     }
     public Bullets generateBulletsEnemy(int col, int row){
-        return new Bullets(GameObjectsType.BULLET, createFieldArray (col, row, GameObjectsType.VIRUS));
+        return new Bullets(GameObjectsType.BULLET, createFieldArray (col, row, GameObjectsType.VIRUS_BULLET));
     }
 
     public Barriers generateBarriers(int col, int row){

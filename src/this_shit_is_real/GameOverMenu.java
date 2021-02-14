@@ -22,7 +22,7 @@ public class GameOverMenu implements KeyboardHandler {
     private boolean gameOverOn;
     private boolean endGame;
 
-    public GameOverMenu(GameObjectsFactory factory, Game game, Field field) {
+    public GameOverMenu(Game game, Field field) {
         this.game = game;
         this.field = field;
         this.selected = 0;
@@ -30,16 +30,16 @@ public class GameOverMenu implements KeyboardHandler {
 
         gameOverOn = true;
         endGame = false;
-        createMenu(factory);
+        createMenu();
     }
 
     public Picture getPic() {
         return gameOver;
     }
 
-    public void createMenu(GameObjectsFactory factory){
+    public void createMenu(){
         gameOver = new Picture();
-        gameOver.load("media/GAMEOVER-01 (2).png");
+        gameOver.load("media/GAMEOVER_Final.png");
         gameOver.translate(10, 10);
         gameOver.draw();
 
@@ -57,8 +57,7 @@ public class GameOverMenu implements KeyboardHandler {
 
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
-        endGame = true;
-        gameOverOn = false;
+        System.exit(0);
     }
 
     @Override
