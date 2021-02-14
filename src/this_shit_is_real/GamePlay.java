@@ -112,7 +112,7 @@ public class GamePlay {
 
             Wait.wait(SPEED / 2);
 
-            if ( counter % 8 == 0 && gameObjects.size() > 4){ enemyShoot(); }
+            if ( counter % 5 == 0 && gameObjects.size() > 4){ enemyShoot(); }
 
             checkCollision();
 
