@@ -42,6 +42,7 @@ public class GameOverMenu implements KeyboardHandler {
         gameOver.load("media/GAMEOVER_Final.png");
         gameOver.translate(10, 10);
         gameOver.draw();
+        GameSounds.gameOver.play(true);
 
         activateKeyboard();
     }
@@ -49,7 +50,7 @@ public class GameOverMenu implements KeyboardHandler {
     public void activateKeyboard() {
 
         spaceButton = new KeyboardEvent();
-        spaceButton.setKey(KeyboardEvent.KEY_SPACE);
+        spaceButton.setKey(KeyboardEvent.KEY_Q);
         spaceButton.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
 
         keyboard.addEventListener(spaceButton);

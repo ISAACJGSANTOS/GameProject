@@ -9,10 +9,7 @@ import this_shit_is_real.field.FieldDirection;
 import this_shit_is_real.field.FieldPosition;
 import this_shit_is_real.sounds.GameSounds;
 
-import java.util.concurrent.CopyOnWriteArrayList;
-
 public class Player extends GameObjects implements KeyboardHandler {
-
     private int score;
     private Keyboard keyboard;
     private GameObjectsFactory factory;
@@ -22,7 +19,9 @@ public class Player extends GameObjects implements KeyboardHandler {
     private KeyboardEvent left;
     private KeyboardEvent right;
     private KeyboardEvent shoot;
-
+    private KeyboardEvent mute;
+    private KeyboardEvent quit;
+    private Boolean musicOn;
 
     public Player(GameObjectsType type, FieldPosition[] pos, GamePlay game){
         super(type, pos);
@@ -33,26 +32,30 @@ public class Player extends GameObjects implements KeyboardHandler {
         score = 0;
         lifes = 3;
         originalHealth = getHealth();
+        musicOn = true;
     }
-
     public void init() {
         left = new KeyboardEvent();
         left.setKey(KeyboardEvent.KEY_LEFT);
         left.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-
         right = new KeyboardEvent();
         right.setKey(KeyboardEvent.KEY_RIGHT);
         right.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-
         shoot = new KeyboardEvent();
         shoot.setKey(KeyboardEvent.KEY_SPACE);
         shoot.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-
+        quit = new KeyboardEvent();
+        quit.setKey(KeyboardEvent.KEY_Q);
+        quit.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        mute = new KeyboardEvent();
+        mute.setKey(KeyboardEvent.KEY_M);
+        mute.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         keyboard.addEventListener(left);
         keyboard.addEventListener(right);
         keyboard.addEventListener(shoot);
+        keyboard.addEventListener(quit);
+        keyboard.addEventListener(mute);
     }
-
     public void shoot(){
         int row = getPos().getRow() - 1;
         int col = getPos().getCol();
@@ -62,9 +65,7 @@ public class Player extends GameObjects implements KeyboardHandler {
         gamePlay.addBullet(bullet);
         GameSounds.throwSeringe.play(true);
     }
-
     // KEYBOARD STAR -------------------------------------------------------------
-
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
         FieldPosition pos = getPos();
@@ -80,24 +81,31 @@ public class Player extends GameObjects implements KeyboardHandler {
             case KeyboardEvent.KEY_SPACE:
                 shoot();
                 break;
+            case KeyboardEvent.KEY_Q:
+                System.exit(0);
+                break;
+            case KeyboardEvent.KEY_M:
+                if(musicOn) {
+                    GameSounds.gameMusic.stop();
+                    musicOn = false;
+                } else {
+                    GameSounds.gameMusic.play(true);
+                    musicOn = true;
+                }
+                break;
         }
     }
-
     public int getOriginalHealth() {
         return originalHealth;
     }
-
     public void keyReleased(KeyboardEvent keyboardEvent) {}
-
     // KEYBOARD END --------------------------------------------------------------
-
     public int getScore() {
         return score;
     }
     public void addScore(int add) {
         score += add;
     }
-
     public int getLifes() {
         return lifes;
     }
@@ -107,11 +115,11 @@ public class Player extends GameObjects implements KeyboardHandler {
             gamePlay.minusLife();
         }
     }
-
     public void killListeners () {
         keyboard.removeEventListener(left);
         keyboard.removeEventListener(right);
         keyboard.removeEventListener(shoot);
-
+        keyboard.removeEventListener(quit);
+        keyboard.removeEventListener(mute);
     }
 }

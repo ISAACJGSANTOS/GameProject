@@ -26,11 +26,13 @@ public class StartMenu implements KeyboardHandler {
     private KeyboardEvent spaceButton;
     private boolean menuOn;
     private boolean endGame;
+    private boolean musicOn;
 
     public StartMenu(GameObjectsFactory factory, Game game, Field field) {
         this.game = game;
         this.field = field;
         this.selected = 0;
+        musicOn = true;
         buttons = new Button[3];
         keyboard = new Keyboard(this);
 
@@ -91,11 +93,20 @@ public class StartMenu implements KeyboardHandler {
 
                     case 1: endGame = true;
                     case 0: menuOn = false; break;
-                    case 2: // game.mute();
+                    case 2: muteMusic();
                 }
         }
     }
 
+    private void muteMusic(){
+        if(musicOn) {
+            GameSounds.startMenu.stop();
+            musicOn = false;
+        } else {
+            GameSounds.startMenu.play(true);
+            musicOn = true;
+        }
+    }
     public void changeImage() {
 
         for (int i = 0; i < buttons.length; i++) {

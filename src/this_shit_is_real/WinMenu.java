@@ -39,9 +39,10 @@ public class WinMenu implements KeyboardHandler {
 
     public void createMenu(){
         winMenuW = new Picture();
-        winMenuW.load("media/Won_final-01.png");
+        winMenuW.load("media/Won-01.png");
         winMenuW.translate(10, 10);
         winMenuW.draw();
+        GameSounds.win.play(true);
 
         activateKeyboard();
     }
@@ -49,7 +50,7 @@ public class WinMenu implements KeyboardHandler {
     public void activateKeyboard() {
 
         spaceButton = new KeyboardEvent();
-        spaceButton.setKey(KeyboardEvent.KEY_SPACE);
+        spaceButton.setKey(KeyboardEvent.KEY_Q);
         spaceButton.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
 
         keyboard.addEventListener(spaceButton);

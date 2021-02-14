@@ -47,11 +47,14 @@ public class Game {
             System.out.println("WIN!");
             gamePlay.delete();
             new WinMenu(this, field);
+            GameSounds.win.play(true);
+            GameSounds.win.setLoop(1000 );
         }
         else {
             System.out.println("LOST!");
             gamePlay.delete();
             new GameOverMenu(this, field);
+
         }
 
 

@@ -299,7 +299,7 @@ public class GamePlay {
     }
 
     public void delete() {
-        pic.delete();
+        //pic.delete();
         score.delete();
 
         gameObjects.clear();

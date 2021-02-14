@@ -24,7 +24,10 @@ public class Enemies extends GameObjects {
         bullet.setCurrentDirection(FieldDirection.DOWN);
         bullet.setDamage(getDamage());
         gamePlay.addBullet(bullet);
-        GameSounds.coronaVirus.play(true);
+        int rand = (int) (Math.random() * 10);
+        if(rand < 5) {
+            GameSounds.coronaVirus.play(true);
+        }
     }
 
 }
