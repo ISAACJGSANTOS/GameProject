@@ -1,26 +1,20 @@
 package this_shit_is_real;
 
-import org.academiadecodigo.simplegraphics.graphics.Color;
-import org.academiadecodigo.simplegraphics.graphics.Text;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
-import this_shit_is_real.field.Field;
 import this_shit_is_real.gameobjects.Button;
 import this_shit_is_real.gameobjects.GameObjectsFactory;
-import this_shit_is_real.gameobjects.Wait;
-import this_shit_is_real.sounds.GameSounds;
+import static this_shit_is_real.sounds.GameSounds.*;
 
 public class StartMenu implements KeyboardHandler {
 
-    private Keyboard keyboard;
-    private Game game;
-    private Field field;
+    private final Keyboard keyboard;
     private Button[] buttons;
     private int selected;
-    private Picture pic;
+    private Picture pic = new Picture();
     private KeyboardEvent downButton;
     private KeyboardEvent upButton;
     private KeyboardEvent spaceButton;
@@ -28,9 +22,9 @@ public class StartMenu implements KeyboardHandler {
     private boolean endGame;
     private boolean musicOn;
 
-    public StartMenu(GameObjectsFactory factory, Game game, Field field) {
-        this.game = game;
-        this.field = field;
+    // INIT AND CREATE MENU ----------------------------------------------------------------
+
+    public StartMenu(GameObjectsFactory factory) {
         this.selected = 0;
         musicOn = true;
         buttons = new Button[3];
@@ -41,12 +35,7 @@ public class StartMenu implements KeyboardHandler {
         createMenu(factory);
     }
 
-    public Picture getPic() {
-        return pic;
-    }
-
     public void createMenu(GameObjectsFactory factory){
-        pic = new Picture();
         pic.load("media/Menu_background_final-01.png");
         pic.translate(10, 10);
         pic.draw();
@@ -57,6 +46,8 @@ public class StartMenu implements KeyboardHandler {
         activateKeyboard();
 
     }
+
+    // KEYBOARD ----------------------------------------------------------------------------
 
     public void activateKeyboard() {
         downButton = new KeyboardEvent();
@@ -82,11 +73,11 @@ public class StartMenu implements KeyboardHandler {
         switch (keyboardEvent.getKey()) {
 
             case KeyboardEvent.KEY_DOWN:
-                if (selected < buttons.length - 1) { selected ++; changeImage(); GameSounds.button.play(true);}
+                if (selected < buttons.length - 1) { selected ++; changeImage(); button.play(true);}
                 break;
 
             case KeyboardEvent.KEY_UP:
-                if (selected > 0) { selected --; changeImage(); GameSounds.button.play(true); }
+                if (selected > 0) { selected --; changeImage(); button.play(true); }
                 break;
             case KeyboardEvent.KEY_SPACE:
                 switch (selected) {
@@ -95,29 +86,6 @@ public class StartMenu implements KeyboardHandler {
                     case 0: menuOn = false; break;
                     case 2: muteMusic();
                 }
-        }
-    }
-
-    private void muteMusic(){
-        if(musicOn) {
-            GameSounds.startMenu.stop();
-            musicOn = false;
-        } else {
-            GameSounds.startMenu.play(true);
-            musicOn = true;
-        }
-    }
-    public void changeImage() {
-
-        for (int i = 0; i < buttons.length; i++) {
-
-            Button b = buttons[i];
-
-            if ( b.equals(buttons[selected]) ) {
-                b.getPos().show(1 + i * 2);
-            } else {
-                b.getPos().show(0 + i * 2);
-            }
         }
     }
 
@@ -135,10 +103,38 @@ public class StartMenu implements KeyboardHandler {
         keyboard.removeEventListener(spaceButton);
     }
 
+
+    // OTHER -------------------------------------------------------------------------
+
+    private void muteMusic(){
+        if(musicOn) {
+            startMenu.stop();
+            musicOn = false;
+        } else {
+            startMenu.play(true);
+            musicOn = true;
+        }
+    }
+
+    public void changeImage() {
+        for (int i = 0; i < buttons.length; i++) {
+
+            Button b = buttons[i];
+
+            if ( b.equals(buttons[selected]) ) {
+                b.getPos().show(1 + i * 2);
+            } else {
+                b.getPos().show(i * 2);
+            }
+        }
+    }
+
+
+    // GETTERS ---------------------------------------------------------------
+
     public boolean isMenuOn () {
         return menuOn;
     }
-
     public boolean endGame() {
         return endGame;
     }

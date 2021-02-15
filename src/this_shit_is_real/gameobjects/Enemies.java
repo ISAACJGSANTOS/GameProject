@@ -7,7 +7,6 @@ import this_shit_is_real.sounds.GameSounds;
 
 public class Enemies extends GameObjects {
 
-    private String name;
     private GameObjectsFactory factory;
     private GamePlay gamePlay;
 
@@ -16,6 +15,9 @@ public class Enemies extends GameObjects {
         this.gamePlay = gamePlay;
         this.factory = gamePlay.getFactory();
     }
+
+
+    // OTHER ---------------------------------------------------------------------
 
     public void shoot(){
         int row = getPos().getRow() + 1;

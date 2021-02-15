@@ -33,17 +33,6 @@ public class Sound {
         clip.close();
     }
 
-
-    public void reOpen() {
-        AudioInputStream inputStream = null;
-        try {
-            inputStream = AudioSystem.getAudioInputStream(soundURL);
-            clip.open(inputStream);
-        } catch (LineUnavailableException | IOException | UnsupportedAudioFileException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
-
     private void initClip(String path) {
         soundURL = Sound.class.getResource(path); //if loading from jar
         AudioInputStream inputStream = null;

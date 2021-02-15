@@ -15,21 +15,19 @@ public enum GameObjectsType {
     HEART("Heart", 100, Color.WHITE, 1, 1, new String[]{"media/Lifes-01.png"}),
     VIRUS_BULLET("Bullet", 1, Color.BLUE, 1, 1, new String[]{"media/virus_bullet.png"});
 
-    private String name;
     private int health;
-    private Color color;
     private int size;
     private int damage;
     private String paths[];
 
     GameObjectsType(String name, int health, Color color, int size, int damage, String[] paths) {
-        this.name = name;
         this.health = health;
-        this.color = color;
         this.size = size;
         this.damage = damage;
         this.paths = paths;
     }
+
+    // GETTERS -------------------------------------------------------------
 
     public int getDamage() {
         return damage;
@@ -37,7 +35,6 @@ public enum GameObjectsType {
     public int getHealth() {
         return health;
     }
-
     public int getSize() {
         return size;
     }

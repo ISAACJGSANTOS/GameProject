@@ -1,8 +1,5 @@
 package this_shit_is_real.gameobjects;
 
-import org.academiadecodigo.simplegraphics.graphics.Color;
-import org.academiadecodigo.simplegraphics.pictures.Picture;
-import this_shit_is_real.field.Field;
 import this_shit_is_real.field.FieldDirection;
 import this_shit_is_real.field.FieldPosition;
 
@@ -23,21 +20,25 @@ public class GameObjects {
         dead = false;
     }
 
-    // Let's move all the object positions
+
+    // MOVING OBJECTS ----------------------------------------------------------------------
+
     public void move (FieldDirection direction, int distance) {
         for (int i = 0; i < myPos.length; i++) {
             myPos[i].moveInDirection(direction, distance);
         }
     }
 
+
+    // KILLING OBJECTS & MAKE THEM DISAPPEAR....  ;)
+
     public void kill() {
         dead = true;
         for (int i = 0; i < myPos.length; i++) { myPos[i].hide(); }
     }
 
-    public void hit(int damage){
-        health -= damage;
-    }
+
+    // GETTERS --------------------------------------------------------------------------
 
     public boolean isDead() { return dead; }
     public FieldPosition getPos() { return myPos[0]; }
@@ -47,6 +48,12 @@ public class GameObjects {
     public int getDamage() { return damage; }
     public GameObjectsType getType() { return type; }
 
+
+    // SETTERS --------------------------------------------------------------------------
+
+    public void hit(int damage){
+        health -= damage;
+    }
     public void setCurrentDirection(FieldDirection currentDirection) { this.currentDirection = currentDirection; }
     public void setHealth(int health) { this.health = health; }
     public void setDamage(int damage) { this.damage = damage; }

@@ -8,13 +8,12 @@ import this_shit_is_real.sounds.GameSounds;
 public class Game {
 
     private Field field;
-    private StartMenu startMenu;
     private GamePlay gamePlay;
 
+    public Game(int col, int row) { field = new Field(col,row); }
 
-    public Game(int col, int row) {
-        field = new Field(col,row);
-    }
+
+    // INIT EVERYTHING AND START StartMenu ---------------------------------------------------
 
     public void init() {
         gamePlay = new GamePlay(this);
@@ -23,7 +22,7 @@ public class Game {
         GameSounds.startMenu.play(true);
         GameSounds.startMenu.setLoop(1000);
 
-        startMenu = new StartMenu(factory,this, getField());
+        StartMenu startMenu = new StartMenu(factory);
 
         while (startMenu.isMenuOn()) { System.out.println(""); }
         if (startMenu.endGame()) { quit(); }
@@ -32,6 +31,9 @@ public class Game {
         GameSounds.startMenu.close();
         play();
     }
+
+
+    // PLAY THE GAME --------------------------------------------------------------------------
 
     public void play() {
         GameSounds.gameMusic.play(true);
@@ -44,20 +46,15 @@ public class Game {
         GameSounds.gameMusic.close();
 
         if (gamePlay.getGameState() == "WIN" ) {
-            System.out.println("WIN!");
             gamePlay.delete();
-            new WinMenu(this, field);
+            new WinMenu();
             GameSounds.win.play(true);
             GameSounds.win.setLoop(1000 );
         }
         else {
-            System.out.println("LOST!");
             gamePlay.delete();
-            new GameOverMenu(this, field);
-
+            new GameOverMenu();
         }
-
-
     }
 
     public void quit() {
