@@ -15,6 +15,9 @@ public class GameObjectsFactory {
         this.gamePlay = gamePlay;
     }
 
+
+    // CREATING THE GAME OBJECTS -------------------------------------------------------
+
     public Enemies generateEnemy(int col, int row) {
 
         int random = (int) (Math.random() * 3);
@@ -57,6 +60,9 @@ public class GameObjectsFactory {
     public Heart generateHeart(int col, int row){
         return new Heart(GameObjectsType.HEART, createFieldArray (col, row, GameObjectsType.HEART));
     }
+
+
+    // SUPPORT TO CREATING OBJECTS: Instantiates all needed positions -------------------------------------
 
     public FieldPosition[] createFieldArray (int col, int row, GameObjectsType type) {
 

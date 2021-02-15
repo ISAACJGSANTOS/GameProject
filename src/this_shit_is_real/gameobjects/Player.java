@@ -11,7 +11,7 @@ import this_shit_is_real.sounds.GameSounds;
 
 public class Player extends GameObjects implements KeyboardHandler {
     private int score;
-    private Keyboard keyboard;
+    private final Keyboard keyboard;
     private GameObjectsFactory factory;
     private GamePlay gamePlay;
     private int lifes;
@@ -34,6 +34,10 @@ public class Player extends GameObjects implements KeyboardHandler {
         originalHealth = getHealth();
         musicOn = true;
     }
+
+
+    // KEYBOARD  -------------------------------------------------------------
+
     public void init() {
         left = new KeyboardEvent();
         left.setKey(KeyboardEvent.KEY_LEFT);
@@ -56,16 +60,7 @@ public class Player extends GameObjects implements KeyboardHandler {
         keyboard.addEventListener(quit);
         keyboard.addEventListener(mute);
     }
-    public void shoot(){
-        int row = getPos().getRow() - 1;
-        int col = getPos().getCol();
-        Bullets bullet = factory.generateBullets(col, row);
-        bullet.setCurrentDirection(FieldDirection.UP);
-        bullet.setDamage(getDamage());
-        gamePlay.addBullet(bullet);
-        GameSounds.throwSeringe.play(true);
-    }
-    // KEYBOARD STAR -------------------------------------------------------------
+
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
         FieldPosition pos = getPos();
@@ -95,31 +90,53 @@ public class Player extends GameObjects implements KeyboardHandler {
                 break;
         }
     }
-    public int getOriginalHealth() {
-        return originalHealth;
-    }
+
     public void keyReleased(KeyboardEvent keyboardEvent) {}
-    // KEYBOARD END --------------------------------------------------------------
-    public int getScore() {
-        return score;
-    }
-    public void addScore(int add) {
-        score += add;
-    }
-    public int getLifes() {
-        return lifes;
-    }
-    public void reduceLifes() {
-        if (lifes > 0) {
-            lifes = lifes - 1;
-            gamePlay.minusLife();
-        }
-    }
+
     public void killListeners () {
         keyboard.removeEventListener(left);
         keyboard.removeEventListener(right);
         keyboard.removeEventListener(shoot);
         keyboard.removeEventListener(quit);
         keyboard.removeEventListener(mute);
+    }
+
+
+    // OTHER ---------------------------------------------------------------
+
+    public void shoot(){
+        int row = getPos().getRow() - 1;
+        int col = getPos().getCol();
+        Bullets bullet = factory.generateBullets(col, row);
+        bullet.setCurrentDirection(FieldDirection.UP);
+        bullet.setDamage(getDamage());
+        gamePlay.addBullet(bullet);
+        GameSounds.throwSeringe.play(true);
+    }
+
+
+    // GETTERS ---------------------------------------------------------------
+
+    public int getOriginalHealth() {
+        return originalHealth;
+    }
+    public int getScore() {
+        return score;
+    }
+    public int getLifes() {
+        return lifes;
+    }
+
+
+    // SETTERS -----------------------------------------------------------------
+
+    public void addScore(int add) {
+        score += add;
+    }
+    public void reduceLifes() {
+        if (lifes > 0) {
+            lifes = lifes - 1;
+            gamePlay.minusLife();
+        }
     }
 }

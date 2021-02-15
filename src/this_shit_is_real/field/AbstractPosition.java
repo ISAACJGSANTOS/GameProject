@@ -19,7 +19,7 @@ public abstract class AbstractPosition {
         original = false;
     }
 
-    // START OF MOVEMENT LOGIC ----------------------------------------------------------------------
+    // MOVEMENT LOGIC ----------------------------------------------------------------------
     public void moveInDirection(FieldDirection direction, int distance) {
         switch (direction) {
             case UP:
@@ -63,12 +63,12 @@ public abstract class AbstractPosition {
         this.row = row;
         if (original) { show(0); }
     }
-    // END OF MOVEMENT LOGIC ------------------------------------------------------------------------
 
+
+    // OTHER ------------------------------------------------------------------------
     public boolean equals(FieldPosition pos) {
         return this.col == pos.getCol() && this.row == pos.getRow();
     }
-
     public void show(int img){} // Although it is only filled on subclass, we need to create it here in order be able to call it on setPos().
 
     // GETTERS
