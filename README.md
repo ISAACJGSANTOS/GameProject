@@ -3,4 +3,10 @@
 ## This Shit Is Real!
 
 <!-- ABOUT THE PROJECT -->
-This is a simple level of a game created by Portuguese students, in their 3rd week of a 'Java' Bootcamp.
+"This Shit Is Real" is a version of Space Invaders Video game, with the Coronavirus pandemic has Theme.
+
+// The Development
+The game was developed in the 3rd week of <Academia de Código_> Bootcamp.
+
+// Tech && Methodologies
+Java, Ant, Sound-library, SimpleGraphics Library, Intellij, Linux.
